@@ -37,15 +37,26 @@ Open `/demo?story=1`: Linh's database holds only ciphertext; the school confirms
 
 <p align="center">
   <a href="public/video/unfound.mp4"><b>Watch the film</b></a> ·
-  <a href="#setup"><b>Setup</b></a> ·
-  <a href="#how-it-works"><b>How it works</b></a> ·
-  <a href="#proof"><b>Proof</b></a> ·
-  <a href="#team"><b>Team</b></a>
+  <a href="#the-problem"><b>Problem</b></a> ·
+  <a href="#the-solution"><b>Solution</b></a> ·
+  <a href="#tidecloak-integration"><b>TideCloak integration</b></a> ·
+  <a href="#the-prototype"><b>Prototype</b></a> ·
+  <a href="#setup"><b>Setup</b></a>
 </p>
 
 ---
 
 > **Note for judges.** Live Tide sign-in could not be completed: on 22 Oct 2026 Tide's enclave failed to create the first account on every attempt ("Could not reach enough NEW ORKs", 13–17 of 20 ORKs failing). The TideCloak integration is in the code and the realm was provisioned and licensed; the film and the deploy run on the mock fabric. Evidence and details in [Setup](#setup).
+
+## At a glance
+
+| | |
+|---|---|
+| **Who it protects** | People who have left a violent partner and moved. The new address is exactly what the abuser is looking for. |
+| **Who it serves** | Schools, GPs, courts and police, who need to *reach* a survivor without being able to *find* her. |
+| **Core idea** | One address, sealed into three parts. Each service opens one part. No one, including our admins and us, holds a key that opens all of it. |
+| **What Tide does** | Holds every key across its decentralised network, enforces who may open which part, and requires a quorum for every change of access. |
+| **Status** | Working prototype: seven personas, three devices, an auto-played end-to-end story. Live TideCloak path wired; public deploy runs on the mock fabric (see the note above). |
 
 ## The film
 
@@ -53,7 +64,18 @@ Open `/demo?story=1`: Linh's database holds only ciphertext; the school confirms
 
 The possibility, the constraint, the prototype (with TideCloak's role) and what changes, in that order. Voice by Kokoro (`af_heart`), problem footage from Mixkit, and every product shot is the real prototype running its own end-to-end story.
 
-## How it works
+## The problem
+
+Leaving is when the risk peaks. Afterwards, every service a survivor uses (school enrolment, the new GP, the bank, the electoral roll, the court) asks for the new address and stores it in plain text, readable by thousands of staff and every administrator.
+
+- **1.5 million** Australian women have experienced violence from a previous partner; **866,700** moved out when it ended [1].
+- **2,215** allegations of misused confidential information in four years across seven Queensland agencies, growing **4.8×** outside the police [2][3].
+- In **2014** a Queensland officer searched the police database and passed a survivor's new address to her abuser [5]. Years later the same system auto-filled survivors' addresses into documents served on offenders [6].
+- In Viet Nam, **90.4%** of women abused by a husband never seek formal help; fear of stigma and further harassment is a main reason [4].
+
+The threat is the insider with legitimate access, not an outside attacker. Access controls and audit logs do not solve it, because the people who configure them are part of the risk.
+
+## The solution
 
 <p align="center"><img src="docs/assets/approach.png" alt="Unfound architecture on the Tide ecosystem" width="100%" /></p>
 
@@ -63,8 +85,110 @@ The possibility, the constraint, the prototype (with TideCloak's role) and what 
 | **02 · Share the minimum** | Each service holds a role for exactly one tag. The school confirms the zone; the GP gets a relay number; nobody else sees anything. | `_tide_<tag>.selfdecrypt`, checked by the Tide Fabric |
 | **03 · No one alone** | Any role grant is a change set. Two of three independent realm admins must sign it. A lone admin's commit returns `412 QUORUM_NOT_MET`. | Quorum-Enforced Governance, threshold signatures |
 | **04 · Emergencies, with witnesses** | Police request break-glass, two approvers sign, the officer opens the address once, and the role is revoked. | Signed change sets, audit trail |
+| **05 · Survivor sees who looked** | Every attempt, approval, refusal and view lands in Linh's own "Who looked" log. | Change-set history, Fabric results |
 
-Built on: TideCloak (BYOiD sign-in, OIDC) · Hermetic E2EE · Tide Fabric of independent ORK nodes · Quorum-Enforced Governance. What we chose not to build: server-side decryption, an admin override, plaintext logs, a master key.
+What we chose **not** to build: server-side decryption, an admin override, plaintext logs, a master key.
+
+## TideCloak integration
+
+Unfound treats Tide as the only place where authority lives. The app never holds a key and never makes an access decision on its own: it asks Tide, and Tide's network answers.
+
+```mermaid
+flowchart LR
+  subgraph Browser["Survivor's or service's browser"]
+    UI["Unfound app<br/>@tidecloak/react"]
+  end
+  subgraph Tide["Tide"]
+    TC["TideCloak realm<br/>BYOiD sign-in · roles · QEA"]
+    ORK["Fabric of independent ORK nodes<br/>key shards · policy checks"]
+  end
+  DB[("Unfound store<br/>ciphertext only")]
+  UI -- "sign in (OIDC + DPoP)" --> TC
+  UI -- "doEncrypt / doDecrypt per tag" --> ORK
+  TC -- "roles in the token" --> ORK
+  UI -- "store / fetch ciphertext" --> DB
+  Admins["3 realm admins"] -- "sign change sets (2 of 3)" --> TC
+```
+
+### 1. Identity: Tide sign-in with sender-bound tokens
+
+Every person signs in with their own Tide account (BYOiD) through `TideCloakContextProvider`. Tokens are bound to the browser with DPoP (`useDPoP: { mode: "auto", alg: "ES256" }`, relay page `public/tide_dpop_auth.html`), so a stolen token is useless on another machine. Unfound never stores a password.
+
+```tsx
+// src/demo/live.tsx
+fetch("/tidecloak.json")
+  .then((r) => r.json())
+  .then((cfg) => setConfig({ ...cfg, useDPoP: { mode: "auto", alg: "ES256" } }));
+
+<TideCloakContextProvider config={config}>…</TideCloakContextProvider>
+```
+
+### 2. Encryption: one address, three tags
+
+The address is encrypted in the browser, one item per tag. The keys are split across Tide's ORK network; no single node, and not our server, can reassemble them.
+
+```tsx
+// sealing, as Linh
+const cts = await tc.doEncrypt([
+  { data: street,  tags: ["addrfull"] },
+  { data: zone,    tags: ["addrzone"] },
+  { data: contact, tags: ["addrcontact"] },
+]);
+
+// opening, as any service: Tide's network checks the caller's roles first
+const [zoneOnly] = await tc.doDecrypt([{ encrypted: cts[1], tags: ["addrzone"] }]);
+```
+
+### 3. Authorisation: a role per tag, enforced by the network
+
+Who opens what is expressed as TideCloak roles, `_tide_<tag>.selfencrypt` and `_tide_<tag>.selfdecrypt`, and checked by the ORK nodes before they help decrypt. Hiding a button in the UI is not the control; the network refusing is.
+
+| Person | Roles | Can open |
+|---|---|---|
+| Linh · survivor | `selfencrypt` + `selfdecrypt` on all three tags | Her whole address |
+| Westgate Primary | `_tide_addrzone.selfdecrypt` | "In zone" only |
+| GP clinic | `_tide_addrcontact.selfdecrypt` | Suburb and relay number |
+| Mai · caseworker | `tide-realm-admin`, `selfencrypt` on all tags | Can seal for a client, cannot read |
+| Dan · IT admin, Ruth · advocate | `tide-realm-admin` | Nothing; they can only vote |
+| Const. Reyes · police | none until a quorum grants one | One view, after 2 of 3 approvals |
+
+### 4. Governance: no one alone, not even an admin
+
+Access changes go through Tide's **Quorum-Enforced Governance**. A grant made through `AdminAPI.addUserRoles` does not take effect: it becomes a change set that the realm admins must sign, with threshold `max(1, floor(0.7 × N))`, which is 2 of 3 here. That is what stops Dan granting himself the street:
+
+```tsx
+const street = await tc.AdminAPI.getRole("_tide_addrfull.selfdecrypt");
+await tc.AdminAPI.addUserRoles(dan.id, [street]);       // 202: change set PENDING (0/2)
+
+const [cs] = await tc.AdminAPI.getPendingChangeSets();
+await tc.AdminAPI.commitChangeSet({                      // 412 QUORUM_NOT_MET
+  changeSetId: cs.changeSetId, actionType: cs.actionType, changeSetType: cs.changeSetType,
+});
+```
+
+Emergency access uses the same mechanism: police request `_tide_addrfull.selfdecrypt`, two independent approvers sign, the officer opens the address once, and a second change set removes the role.
+
+### 5. Threat model
+
+| Who tries | What they get |
+|---|---|
+| A curious or bribed staff member at a service | Only the part their role allows, and the attempt is logged for Linh. |
+| A realm admin granting themselves access | A pending change set and `412 QUORUM_NOT_MET`. |
+| Whoever runs Unfound's server or database | Ciphertext. There is no key on the server to steal or subpoena. |
+| A compromised TideCloak server or a single ORK node | No usable key: keys exist only as shards across independent nodes. |
+| Someone holding a stolen access token | Nothing from another machine: the token is DPoP-bound. |
+
+### 6. One interface, two fabrics
+
+The UI talks to a single `Fabric` interface ([`src/demo/fabric.ts`](src/demo/fabric.ts)). **Live** calls TideCloak (`doEncrypt` / `doDecrypt`, AdminAPI change sets). **Mock** applies the same role and quorum rules with AES-GCM in the browser, so the demo runs anywhere without a realm. The mock proves the experience; only live mode carries Tide's security guarantees.
+
+| Where | Tide feature |
+|---|---|
+| [`src/demo/live.tsx`](src/demo/live.tsx) | Provider with DPoP, Tide sign-in, `doEncrypt` / `doDecrypt`, `AdminAPI` change sets |
+| [`src/demo/engine.ts`](src/demo/engine.ts) | Tags, `_tide_<tag>.*` roles, quorum threshold |
+| [`tools/tide-setup.mjs`](tools/tide-setup.mjs) | Copies the realm adapter into the app, creates and assigns the six `_tide_addr*` roles |
+| [`scripts/setup-local.sh`](scripts/setup-local.sh) | TideCloak in Docker, licensed realm with QEA, enrolment, wiring, app start |
+| [`.mcp.json`](.mcp.json) · [`docs/TIDE_MCP.md`](docs/TIDE_MCP.md) | Tide's MCP server: `tide_hosting` and `tide_doctor` planned and checked the integration |
 
 ## The prototype
 
@@ -143,7 +267,7 @@ If provisioning stops with `KEYGEN_FAILED` / "Not enough orks returned an ok res
 ## Project layout
 
 ```
-src/landing/       landing page: hero scene, problem, approach, showcase, proof, team
+src/landing/       landing page: hero scene, problem, approach, showcase, proof, comparison
 src/demo/          prototype: engine (state machine), fabric (mock + live), story, screens per persona
 src/demo/live.tsx  TideCloak wiring: @tidecloak/react provider, doEncrypt/doDecrypt, AdminAPI change sets
 src/film/          the film as a deterministic, frame-seekable page (/film)
@@ -154,17 +278,6 @@ docs/              DESIGN.md (design system), TIDE_MCP.md (how Tide's MCP was us
                    LIVE_TIDECLOAK.md, DEMO_SCRIPT.md, RESEARCH_NOTES_VI.md, assets/
 .mcp.json          Tide's MCP server for Claude Code (https://mcp.tide.org/mcp)
 ```
-
-## Team
-
-| | Name | Role | |
-|---|---|---|---|
-| <img src="public/team/long-quan-ton.jpg" width="96" alt="Long Quan Ton" /> | **Long Quan Ton** | AI Engineer | HCMUT · UTS |
-| <img src="public/team/thanh-loi-tran.jpg" width="96" alt="Thanh Loi Tran" /> | **Thanh Loi Tran** | ML Engineer | HCMUT · UTS |
-| <img src="public/team/huu-nhan-nguyen.jpg" width="96" alt="Huu Nhan Nguyen" /> | **Huu Nhan Nguyen** | Backend Engineer | HCMUT · UTS |
-| <img src="public/team/vo-di-luan-dang.jpg" width="96" alt="Vo Di Luan Dang" /> | **Vo Di Luan Dang** | Data Scientist | HCMUT · UTS |
-
-Team GenData · RMIT Hackathon 2026 · Challenge 2, UNLOCKED.
 
 ## References
 

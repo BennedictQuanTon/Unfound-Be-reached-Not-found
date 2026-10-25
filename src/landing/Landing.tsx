@@ -10,7 +10,6 @@ import { Stack } from "./Stack";
 import { Prototype } from "./Prototype";
 import { Approach } from "./Approach";
 import { Compare, References } from "./Compare";
-import { Team } from "./Team";
 import { CountUp, Reveal, ScrollWords, Words } from "../motion/primitives";
 import { Intro, introSeen } from "../motion/Intro";
 import { ease } from "../motion/tokens";
@@ -239,7 +238,6 @@ export function Landing() {
             </Reveal>
           </div>
         </section>
-        <Team />
       </main>
 
       <footer className="footer">
