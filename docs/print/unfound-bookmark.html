@@ -1,0 +1,212 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Unfound bookmark</title><style>
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Inter:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap");
+:root { --ob:#000; --cv:#fff; --fog:#f9fafb; --mist:#e5e7eb; --pew:#dfdfdf; --stone:#c9c9c9; --gr:#6e6e6e; --wash:#e2eeff; --seal:#8dbbff; --lam:#3d8bff; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font: 400 6.6pt/1.45 Inter, sans-serif; color: var(--ob); }
+h2 { font: 600 13pt/1.12 Geist, sans-serif; letter-spacing: -0.015em; text-wrap: balance; color: var(--stone); }
+h2 b { color: var(--ob); font-weight: 600; }
+.eyebrow { display: inline-block; font: 500 5.4pt Geist, sans-serif; letter-spacing: 0.09em; text-transform: uppercase; border: 0.4pt solid var(--pew); border-radius: 99px; padding: 1.6pt 6pt; margin-bottom: 4mm; background: #fff; align-self: flex-start; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 0; }
+
+/* A panel is the trim (70×210 mm) plus 3 mm bleed on every side. Content keeps 6 mm inside the trim. */
+.panel { width: 76mm; height: 216mm; padding: 9mm 9mm 9mm; position: relative; overflow: hidden; display: flex; flex-direction: column; background: #fff; }
+.panel.dark { background: var(--ob); color: #fff; }
+.panel.fog { background: var(--fog); }
+.top { display: flex; justify-content: space-between; align-items: center; font: 500 5.2pt Geist; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gr); margin-bottom: 6mm; }
+.brand { display: inline-flex; align-items: center; gap: 4pt; font: 600 8.5pt Geist; letter-spacing: -0.02em; text-transform: none; color: currentColor; }
+.dark .top { color: #8a8a8a; }
+.dark .brand { color: #fff; }
+.foot { margin-top: auto; display: flex; justify-content: space-between; align-items: end; font-size: 5pt; color: var(--gr); padding-top: 3mm; border-top: 0.4pt solid var(--pew); }
+.dark .foot { border-color: #2a2a2a; color: #8a8a8a; }
+.src { font-size: 4.6pt; color: var(--gr); line-height: 1.35; }
+
+/* 1 · cover */
+.cover-mark { margin: 14mm auto 0; }
+.cover h1 { font: italic 400 25pt/1 "Instrument Serif", serif; margin-top: 12mm; letter-spacing: -0.01em; }
+.cover h1 em { color: var(--seal); }
+.cover .hero { font: 600 10.5pt/1.18 Geist; margin-top: 7mm; color: #5a5a5a; letter-spacing: -0.01em; }
+.cover .hero b { color: #fff; font-weight: 600; }
+.cover .lede { margin-top: 5mm; color: #a9a9a9; font-size: 6.8pt; line-height: 1.5; }
+.cover .seal-strip { margin-top: 8mm; display: grid; gap: 1.6mm; }
+.cover .seal-strip div { display: flex; justify-content: space-between; align-items: center; border: 0.4pt solid #2f2f2f; border-left: 2pt solid var(--seal); border-radius: 3pt; padding: 1.8mm 2.4mm; font-size: 5.6pt; color: #cfcfcf; }
+.cover .seal-strip span.mono { color: #6f6f6f; font-size: 5pt; }
+
+/* 2 · problem */
+.stat { padding: 3.2mm 0; border-top: 0.4pt solid var(--mist); }
+.stat:first-of-type { border-top: 1pt solid var(--ob); }
+.stat .row { display: flex; align-items: baseline; gap: 2.4mm; }
+.stat b.n { font: 600 16pt/1 Geist; letter-spacing: -0.02em; white-space: nowrap; }
+.stat b.n i { font-style: normal; color: var(--seal); }
+.stat p { font-size: 5.9pt; line-height: 1.38; color: #222; }
+.stat .k { font: 500 4.8pt Geist; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gr); margin-bottom: 1mm; }
+.bars { margin-top: 1.8mm; display: grid; gap: 1mm; }
+.bar { display: grid; grid-template-columns: 1fr; gap: 0.4mm; font-size: 4.6pt; color: var(--gr); }
+.bar s { display: block; height: 2.2mm; background: var(--mist); border-radius: 1pt; position: relative; text-decoration: none; }
+.bar s u { position: absolute; inset: 0 auto 0 0; background: var(--stone); border-radius: 1pt; }
+.bar s u.seal { background: var(--seal); }
+.bar s u.ink { background: var(--ob); }
+.units { margin-top: 1.8mm; display: grid; grid-template-columns: repeat(20, 1fr); gap: 0.45mm; }
+.units i { aspect-ratio: 1; background: var(--mist); border-radius: 0.4pt; }
+.units i.on { background: var(--seal); }
+.cols { margin-top: 1.8mm; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4mm; align-items: end; height: 13mm; }
+.cols div { display: flex; flex-direction: column-reverse; height: 100%; justify-content: flex-start; text-align: center; font-size: 4.4pt; color: var(--gr); }
+.cols div s, .cols div u { display: block; text-decoration: none; }
+.cols div s { background: var(--stone); }
+.cols div u { background: var(--seal); }
+.cols div em { font-style: normal; margin-top: 0.6mm; order: -1; }
+.dots { display: flex; gap: 1.2mm; margin-top: 1.8mm; }
+.dots i { width: 5mm; height: 5mm; border-radius: 50%; background: var(--seal); }
+.dots i.off { background: var(--mist); }
+
+/* 3 · who sees what */
+.addr { margin: 5mm 0 4mm; border: 0.4pt solid var(--pew); border-radius: 4pt; background: #fff; padding: 2.6mm; }
+.addr .h { display: flex; justify-content: space-between; align-items: center; font: 600 6.4pt Geist; margin-bottom: 2mm; }
+.badge { display: inline-flex; align-items: center; gap: 2pt; font: 600 4.6pt Geist; letter-spacing: 0.08em; text-transform: uppercase; padding: 1.2pt 4pt; border-radius: 3pt; white-space: nowrap; }
+.badge.sealed { background: var(--wash); color: var(--ob); }
+.badge.denied { background: var(--ob); color: #fff; }
+.badge.pending { box-shadow: inset 0 0 0 0.6pt var(--ob); color: var(--ob); }
+.badge.approved { background: var(--seal); color: var(--ob); }
+.part { display: grid; grid-template-columns: 1fr auto; gap: 0.4mm 2mm; padding: 1.6mm 2mm; margin-top: 1.2mm; background: var(--wash); border-left: 2pt solid var(--seal); border-radius: 2pt; }
+.part b { font: 600 5.8pt Geist; }
+.part .mono { font-size: 4.8pt; color: var(--gr); grid-column: 1 / -1; }
+.part code { font: 4.8pt ui-monospace, Menlo, monospace; color: var(--ob); }
+.who { display: grid; gap: 0; }
+.who li { list-style: none; display: grid; grid-template-columns: 7mm 1fr; gap: 2mm; align-items: center; padding: 2mm 0; border-top: 0.4pt solid var(--mist); }
+.who li:first-child { border-top: 1pt solid var(--ob); }
+.av { width: 7mm; height: 7mm; border-radius: 50%; display: grid; place-items: center; font: 600 5.6pt Geist; background: #fff; box-shadow: inset 0 0 0 0.5pt var(--pew); }
+.av.me { background: var(--wash); box-shadow: none; }
+.who b { font: 600 6.2pt Geist; display: block; }
+.who span { font-size: 5.6pt; color: #333; }
+.who .line { display: flex; justify-content: space-between; align-items: center; gap: 2mm; }
+
+/* 4 · Tide */
+.tide { display: grid; gap: 0; margin-top: 1mm; }
+.tide li { list-style: none; padding: 2.4mm 0; border-top: 0.4pt solid var(--mist); display: grid; grid-template-columns: 5mm 1fr; gap: 1.6mm; }
+.tide li:first-child { border-top: 1pt solid var(--ob); }
+.tide .i { font: 600 5.2pt Geist; color: var(--gr); padding-top: 0.4mm; }
+.tide b { font: 600 6.6pt Geist; display: block; }
+.tide p { font-size: 5.6pt; color: #333; margin-top: 0.4mm; }
+.tide code { font: 4.9pt ui-monospace, Menlo, monospace; background: var(--wash); padding: 0 2pt; border-radius: 2pt; }
+.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 4mm; border-top: 1pt solid var(--ob); }
+.kpis div { padding: 2mm 1.4mm 2mm 0; }
+.kpis div:nth-child(n+4) { border-top: 0.4pt solid var(--mist); }
+.kpis b { font: 600 11pt/1 Geist; letter-spacing: -0.02em; display: block; }
+.kpis b i { font-style: normal; color: var(--seal); }
+.kpis span { font-size: 4.8pt; color: var(--gr); }
+.next { margin-top: 3mm; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1mm; }
+.next div { border: 0.4pt solid var(--pew); border-radius: 3pt; padding: 1.4mm; font-size: 4.8pt; color: #333; line-height: 1.3; }
+.next div b { display: block; font: 600 5pt Geist; color: var(--ob); }
+.next div.now { background: var(--wash); border-color: var(--seal); }
+.qr { display: grid; grid-template-columns: 17mm 1fr; gap: 3mm; align-items: center; margin-top: 4mm; }
+.qr .code { width: 17mm; height: 17mm; }
+.qr .code svg { width: 100%; height: 100%; display: block; }
+.qr p { font-size: 5.4pt; color: #333; }
+.qr p b { font: 600 6.6pt Geist; display: block; color: var(--ob); margin-bottom: 0.6mm; }
+.qr img { height: 4.6mm; margin-top: 1.6mm; display: block; }
+
+@page { size: 76mm 216mm; margin: 0; } .panel { break-after: page; }</style></head><body><section class="panel dark cover">
+  <div class="top"><span class="brand"><svg width="12" height="12" viewBox="0 0 64 64" aria-hidden="true"><path d="M16 60V28a16 16 0 0 1 32 0v32" fill="none" stroke="#fff" stroke-width="9"/><circle cx="32" cy="28" r="5.5" fill="#fff"/></svg> unfound</span><span>01 / 04</span></div>
+  <div class="cover-mark"><svg width="118" height="118" viewBox="0 0 64 64" aria-hidden="true"><path d="M16 60V28a16 16 0 0 1 32 0v32" fill="none" stroke="#fff" stroke-width="9"/><circle cx="32" cy="28" r="5.5" fill="#fff"/></svg></div>
+  <h1>Be reached,<br/><em>not found.</em></h1>
+  <p class="hero">Every school. Every clinic.<br/><b>No one finds you.</b></p>
+  <p class="lede">A safe address for family-violence survivors. Services can reach her after she moves. No employee, admin or operator can find her.</p>
+  <div class="seal-strip">
+    <div><span>Full address</span><span class="mono">7fQ2…a9Lk</span></div>
+    <div><span>School zone</span><span class="mono">c41E…0pZr</span></div>
+    <div><span>Contact relay</span><span class="mono">Hh8v…3sTd</span></div>
+  </div>
+  <div class="foot"><span>Your address, held by no one.</span><span>Built on Tide</span></div>
+</section><section class="panel">
+  <div class="top"><span class="brand"><svg width="12" height="12" viewBox="0 0 64 64" aria-hidden="true"><path d="M16 60V28a16 16 0 0 1 32 0v32" fill="none" stroke="#000" stroke-width="9"/><circle cx="32" cy="28" r="5.5" fill="#000"/></svg> unfound</span><span>02 / 04</span></div>
+  <span class="eyebrow">The problem</span>
+  <h2>A new address is the <b>most dangerous data</b> a survivor owns.</h2>
+  <div style="height:4mm"></div>
+  <div class="stat">
+    <div class="k">AU · Partner violence</div>
+    <div class="row"><b class="n">1.5<i>M</i></b><p>women have experienced violence from a <b>previous</b> partner: nine times more than from a current one.<sup>1</sup></p></div>
+    <div class="bars">
+      <div class="bar">Women · previous partner · 16%<s><u class="seal" style="width:80%"></u></s></div>
+      <div class="bar">Women · current partner · 1.7%<s><u class="ink" style="width:8.5%"></u></s></div>
+    </div>
+  </div>
+  <div class="stat">
+    <div class="k">AU · Leaving</div>
+    <div class="row"><b class="n">64<i>%</i></b><p>moved out when it ended: <b>866,700</b> new addresses for schools, GPs and courts to store.<sup>1</sup></p></div>
+    <div class="units"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div>
+  </div>
+  <div class="stat">
+    <div class="k">AU · Separation</div>
+    <div class="row"><b class="n">2<i> in </i>3</b><p>women killed by a partner in NSW were killed after leaving or while separating.<sup>2</sup></p></div>
+    <div class="dots"><i></i><i></i><i class="off"></i></div>
+  </div>
+  <div class="stat">
+    <div class="k">AU · Insiders</div>
+    <div class="row"><b class="n">2,215</b><p>misuse-of-information allegations in 4 years, 7 Queensland agencies. Outside police: <b>4.8×</b>.<sup>3</sup></p></div>
+    <div class="cols">
+      <div><s style="height:69.71428571428571%"></s><u style="height:9.285714285714286%"></u><em>15/16</em></div>
+      <div><s style="height:62.714285714285715%"></s><u style="height:10.428571428571429%"></u><em>16/17</em></div>
+      <div><s style="height:53%"></s><u style="height:24.857142857142858%"></u><em>17/18</em></div>
+      <div><s style="height:41.857142857142854%"></s><u style="height:44.57142857142857%"></u><em>18/19</em></div>
+    </div>
+  </div>
+  <div class="stat">
+    <div class="k">VN · Silence</div>
+    <div class="row"><b class="n">90.4<i>%</i></b><p>of women abused by a husband never sought formal help.<sup>4</sup></p></div>
+    <div class="bars"><div class="bar"><s><u class="seal" style="width:90.4%"></u></s></div></div>
+  </div>
+  <div class="foot" style="display:block">
+    <p class="src">1 ABS, Personal Safety Survey 2021–22. 2 NSW DV Death Review Team 2021–23. 3 CCC Qld, Operation Impala Ex. 95, 2019. 4 National Study on VAW in Viet Nam 2019. Accessed 22–26 Oct 2026.</p>
+  </div>
+</section><section class="panel fog">
+  <div class="top"><span class="brand"><svg width="12" height="12" viewBox="0 0 64 64" aria-hidden="true"><path d="M16 60V28a16 16 0 0 1 32 0v32" fill="none" stroke="#000" stroke-width="9"/><circle cx="32" cy="28" r="5.5" fill="#000"/></svg> unfound</span><span>03 / 04</span></div>
+  <span class="eyebrow">Who sees what</span>
+  <h2>One address. Three sealed parts. <b>No master key.</b></h2>
+  <div class="addr">
+    <div class="h"><span>Linh's new address</span><span class="badge sealed"><svg width="7" height="7" viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="8" rx="1.5" fill="currentColor"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg> Sealed</span></div>
+    <div class="part"><b>Full address</b><code>addrfull</code><span class="mono">Street, unit, postcode · opens only by quorum</span></div>
+    <div class="part"><b>School zone</b><code>addrzone</code><span class="mono">Catchment only</span></div>
+    <div class="part"><b>Contact relay</b><code>addrcontact</code><span class="mono">Suburb and relay number</span></div>
+  </div>
+  <ul class="who">
+    <li><div class="av me">L</div><div><div class="line"><b>Linh · survivor</b><span class="badge sealed">Owner</span></div><span>Seals once on her phone. Sees every attempt in "Who looked".</span></div></li>
+    <li><div class="av">S</div><div><div class="line"><b>School</b><span class="badge approved">Zone ✓</span></div><span>"In Footscray North zone." Never the street.</span></div></li>
+    <li><div class="av">G</div><div><div class="line"><b>GP clinic</b><span class="badge approved">Relay</span></div><span>Suburb and a relay number to call.</span></div></li>
+    <li><div class="av">C</div><div><div class="line"><b>Court mail</b><span class="badge pending">At print</span></div><span>The street opens only as the label prints.</span></div></li>
+    <li><div class="av">P</div><div><div class="line"><b>Police</b><span class="badge pending">2 of 3</span></div><span>Break-glass: two approvers sign, one view, then revoked.</span></div></li>
+    <li><div class="av">A</div><div><div class="line"><b>IT admin</b><span class="badge denied">412</span></div><span>Sees ciphertext. A self-grant stays pending.</span></div></li>
+    <li><div class="av">U</div><div><div class="line"><b>Unfound</b><span class="badge denied">No key</span></div><span>Stores ciphertext only. Cannot decrypt anything.</span></div></li>
+  </ul>
+  <div class="foot"><span>Least privilege, enforced by the network.</span><span>Synthetic data</span></div>
+</section><section class="panel">
+  <div class="top"><span class="brand"><svg width="12" height="12" viewBox="0 0 64 64" aria-hidden="true"><path d="M16 60V28a16 16 0 0 1 32 0v32" fill="none" stroke="#000" stroke-width="9"/><circle cx="32" cy="28" r="5.5" fill="#000"/></svg> unfound</span><span>04 / 04</span></div>
+  <span class="eyebrow">Built on Tide</span>
+  <h2>Authority lives on Tide's Fabric, <b>not with any person.</b></h2>
+  <div style="height:4mm"></div>
+  <ul class="tide">
+    <li><span class="i">01</span><div><b>Seal in the browser</b><p><code>doEncrypt</code> per tag. Keys exist only as shards across independent ORK nodes.</p></div></li>
+    <li><span class="i">02</span><div><b>One role per part</b><p><code>_tide_addrzone.selfdecrypt</code> and friends, checked by the ORKs before they help decrypt.</p></div></li>
+    <li><span class="i">03</span><div><b>No one alone</b><p>Every grant is a Quorum-Enforced Governance change set. A lone commit returns <code>412</code>.</p></div></li>
+    <li><span class="i">04</span><div><b>Sign in, bound</b><p>TideCloak BYOiD sign-in with DPoP: a stolen token is useless elsewhere.</p></div></li>
+  </ul>
+  <div class="kpis">
+    <div><b>7</b><span>personas</span></div>
+    <div><b>68<i>s</i></b><span>auto-played story</span></div>
+    <div><b>15</b><span>Tide operations</span></div>
+    <div><b>0</b><span>plaintext addresses</span></div>
+    <div><b>2<i>/</i>3</b><span>quorum for access</span></div>
+    <div><b>4<i>d</i></b><span>to build</span></div>
+  </div>
+  <div class="next">
+    <div class="now"><b>Now</b>Live realm on Tide</div>
+    <div><b>Q1 27</b>Design partners</div>
+    <div><b>Q2 27</b>Supervised pilot</div>
+    <div><b>2028</b>Scale AU · VN</div>
+  </div>
+  <div class="qr">
+    <div class="code"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33 33" shape-rendering="crispEdges"><path stroke="#000000" d="M0 0.5h7m1 0h6m1 0h4m2 0h1m1 0h1m2 0h7M0 1.5h1m5 0h1m2 0h1m1 0h1m1 0h2m1 0h2m1 0h1m1 0h2m3 0h1m5 0h1M0 2.5h1m1 0h3m1 0h1m3 0h1m1 0h1m1 0h5m1 0h2m1 0h2m1 0h1m1 0h3m1 0h1M0 3.5h1m1 0h3m1 0h1m1 0h1m2 0h1m3 0h4m1 0h2m1 0h2m1 0h1m1 0h3m1 0h1M0 4.5h1m1 0h3m1 0h1m1 0h1m1 0h2m1 0h1m2 0h4m6 0h1m1 0h3m1 0h1M0 5.5h1m5 0h1m1 0h2m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m4 0h1m5 0h1M0 6.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M8 7.5h1m2 0h2m1 0h1m2 0h1m3 0h2M0 8.5h1m3 0h1m1 0h3m6 0h3m1 0h3m3 0h5m2 0h1M0 9.5h4m5 0h1m1 0h1m2 0h1m1 0h1m1 0h1m4 0h1m1 0h1m3 0h3M1 10.5h1m2 0h4m2 0h7m6 0h1m2 0h1m2 0h1m1 0h1M0 11.5h1m2 0h3m1 0h1m1 0h2m1 0h2m1 0h1m1 0h3m1 0h1m1 0h1m1 0h1M0 12.5h2m1 0h1m1 0h4m2 0h3m2 0h8m2 0h1m2 0h1m2 0h1M4 13.5h2m4 0h1m1 0h3m2 0h1m3 0h1m4 0h2m1 0h1M1 14.5h4m1 0h1m2 0h1m1 0h1m3 0h1m2 0h1m4 0h4m1 0h1m1 0h2M0 15.5h1m2 0h1m1 0h1m5 0h1m1 0h1m1 0h3m2 0h3m1 0h3M0 16.5h1m3 0h1m1 0h3m1 0h5m1 0h2m1 0h4m1 0h1m1 0h1m1 0h1m2 0h1M1 17.5h1m2 0h1m2 0h1m1 0h8m1 0h2m3 0h1m1 0h1m3 0h2m1 0h1M1 18.5h1m1 0h2m1 0h1m3 0h3m1 0h2m4 0h2m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1M1 19.5h1m1 0h1m1 0h1m2 0h1m1 0h5m1 0h2m1 0h3m1 0h2m2 0h1m4 0h1M0 20.5h1m1 0h3m1 0h3m2 0h2m1 0h1m3 0h1m2 0h2m1 0h1m1 0h1m2 0h1M0 21.5h1m6 0h1m1 0h2m2 0h1m2 0h1m1 0h1m7 0h2m1 0h1m1 0h1M2 22.5h2m1 0h2m1 0h1m1 0h2m4 0h3m1 0h1m1 0h4m1 0h1m1 0h3M2 23.5h1m1 0h2m3 0h1m1 0h1m1 0h1m3 0h2m2 0h1m3 0h5m1 0h2M0 24.5h2m3 0h5m1 0h3m1 0h1m1 0h1m1 0h4m1 0h5m3 0h1M8 25.5h1m2 0h8m1 0h2m1 0h2m3 0h1m1 0h2M0 26.5h7m1 0h1m1 0h3m2 0h1m2 0h1m1 0h1m3 0h1m1 0h1m1 0h2m1 0h1M0 27.5h1m5 0h1m2 0h1m1 0h1m1 0h1m1 0h2m3 0h3m1 0h1m3 0h1m2 0h1M0 28.5h1m1 0h3m1 0h1m1 0h3m3 0h3m3 0h1m1 0h1m1 0h6m1 0h2M0 29.5h1m1 0h3m1 0h1m2 0h6m3 0h1m2 0h1m1 0h2m1 0h4M0 30.5h1m1 0h3m1 0h1m2 0h2m2 0h3m1 0h2m4 0h2m1 0h3m1 0h1M0 31.5h1m5 0h1m3 0h2m1 0h5m2 0h2m3 0h2M0 32.5h7m1 0h1m2 0h4m2 0h1m1 0h6m4 0h2m1 0h1"/></svg>
+</div>
+    <p><b>Scan for the demo, film and code.</b>github.com/BennedictQuanTon/<br/>RMIT_SGS_GenData_C2<img src="https://tide.org/badges/built-with-tidecloak.svg" alt="Built with TideCloak"/></p>
+  </div>
+  <div class="foot"><span>Be reached, not found.</span><span>RMIT Hackathon 2026 · UNLOCKED</span></div>
+</section></body></html>

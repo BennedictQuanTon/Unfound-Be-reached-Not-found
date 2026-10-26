@@ -275,7 +275,8 @@ src/motion/        intro, page morph, smooth scroll, reveal primitives, Web Audi
 scripts/           setup-local.sh: one-command local setup with TideCloak and Tide MCP
 tools/             tide-setup.mjs: wire a realm into the app (adapter + roles)
 docs/              DESIGN.md (design system), TIDE_MCP.md (how Tide's MCP was used),
-                   LIVE_TIDECLOAK.md, DEMO_SCRIPT.md, RESEARCH_NOTES_VI.md, assets/
+                   LIVE_TIDECLOAK.md, DEMO_SCRIPT.md, RESEARCH_NOTES_VI.md, assets/,
+                   UNFOUND_BRIEF.md + .pdf (founder brief), print/ (pocket bookmark, print-ready)
 .mcp.json          Tide's MCP server for Claude Code (https://mcp.tide.org/mcp)
 ```
 
