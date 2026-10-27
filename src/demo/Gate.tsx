@@ -141,7 +141,7 @@ export function Gate({ liveReady, onLive, onMock, onStory }: {
                 To test with Tide, run the project from GitHub on your own machine. One command sets up TideCloak, the realm and the app.
               </p>
               <div className="sorry-actions">
-                <a className="btn lg" href="https://github.com/BennedictQuanTon/RMIT_SGS_GenData_C2#setup" target="_blank" rel="noreferrer">
+                <a className="btn lg" href="https://github.com/BennedictQuanTon/Unfound-Be-reached-Not-found#setup" target="_blank" rel="noreferrer">
                   Open on GitHub <span className="arrow">→</span>
                 </a>
                 <button className="btn lg outline" data-sfx="tap" onClick={(e) => { setSorry(false); go(e, "#e2eeff", onMock); }}>
