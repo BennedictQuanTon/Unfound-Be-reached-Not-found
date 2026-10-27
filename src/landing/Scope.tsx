@@ -32,7 +32,7 @@ export function Scope() {
           <Reveal><span className="eyebrow">Scope</span></Reveal>
           <h2><Words text="What Unfound protects, and what it *doesn't.*" /></h2>
           <Reveal delay={0.1}>
-            <p>Unfound closes one dangerous path: services that hold a survivor's address and leak it through a lookup, a permission change or a letter. In a UK survey, 40% of survivors had their new address disclosed to the abuser, mostly by agencies such as their child's school or the council; 52% for survivors with children <a href="#ref-19">[19]</a>. It is one part of a safety plan, not a replacement for it.</p>
+            <p>Unfound closes one dangerous path: services that hold a survivor's address and leak it through a lookup, a permission change or a letter. In a UK survey, 40% of survivors had their new address disclosed to the abuser, mostly by agencies such as their child's school or the council; 52% for survivors with children <a href="#ref-19">[19]</a>. We estimate Unfound could spare about 1 in 12 survivors that disclosure in a pilot, and up to 1 in 3 if every service they use joined. It is one part of a safety plan, not a replacement for it.</p>
           </Reveal>
         </div>
 

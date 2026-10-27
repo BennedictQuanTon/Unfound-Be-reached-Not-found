@@ -701,3 +701,9 @@ html.lenis, html.lenis body { height: auto; }
   .scope-stage + .scope-stage { padding-left: 0; border-left: 0; border-top: 0.5px solid var(--color-slate-mist); }
   .cases { grid-template-columns: 1fr; }
 }
+
+.ratio { display: flex; gap: 12px; }
+.ratio i { width: 56px; height: 56px; border-radius: 50%; background: var(--color-slate-mist); }
+.ratio i.on { background: var(--color-seal); }
+.ratio.draw i { opacity: 0; transform: scale(0.4); transition: opacity 0.4s ease-out var(--d, 0s), transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) var(--d, 0s); }
+.ratio.draw.in i { opacity: 1; transform: none; }

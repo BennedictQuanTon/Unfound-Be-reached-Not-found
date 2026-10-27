@@ -48,6 +48,18 @@ export function UnitChart({ on, label }: { on: number; label: string }) {
   );
 }
 
+// "n in m" as m large dots, n of them filled: for ratios that are reported approximately.
+export function RatioChart({ on, of, label }: { on: number; of: number; label: string }) {
+  const [ref, inCls] = useInClass<HTMLDivElement>();
+  return (
+    <div ref={ref} className={`ratio draw ${inCls}`} role="img" aria-label={label}>
+      {Array.from({ length: of }, (_, i) => (
+        <i key={i} className={i < on ? "on" : undefined} style={d(0.15 + i * 0.12)} />
+      ))}
+    </div>
+  );
+}
+
 export interface StackedYear {
   year: string;
   ctx: number;

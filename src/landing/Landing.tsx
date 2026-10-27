@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useMotionValueEvent, useScroll, useSpring, useTransform } from "motion/react";
 import { Brand, Mark } from "../brand/Logo";
-import { BarChart, StackedColumns, UnitChart } from "./Charts";
+import { BarChart, RatioChart, StackedColumns, UnitChart } from "./Charts";
 import { HeroScene } from "./HeroScene";
 import { Showcase } from "./Showcase";
 import { WhoSees } from "./WhoSees";
@@ -173,6 +173,30 @@ export function Landing() {
               </Reveal>
 
               <Reveal as="article" className="card stat" delay={0}>
+                <div className="stat-top"><span className="eyebrow">NSW · Separation</span></div>
+                <div className="stat-num">~2 in 3</div>
+                <p className="stat-claim">women killed by a male intimate partner were killed <b>after leaving or while separating</b>: just over a third after the relationship ended, another third as it was ending.</p>
+                <RatioChart on={2} of={3} label="About two in three women killed by an intimate partner in NSW were killed after leaving or while separating" />
+                <p className="source">NSW Domestic Violence Death Review Team, Report 2021–23, as reported by the Canberra Times.</p>
+              </Reveal>
+
+              <Reveal as="article" className="card stat" delay={0.08}>
+                <div className="stat-top"><span className="eyebrow">UK · Survivors</span></div>
+                <div className="stat-num"><CountUp value={40} suffix="%" /></div>
+                <p className="stat-claim">of survivors had their new address disclosed to the abuser, <b>mostly by agencies such as their child's school or the council</b>. With children, it was 52%.</p>
+                <BarChart
+                  label="Survivors whose new address was disclosed to the perpetrator, Great Britain, survey of 1,019 survivors"
+                  max={100}
+                  ticks={["0%", "25%", "50%", "75%", "100%"]}
+                  bars={[
+                    { label: "All survivors", value: 40, display: "40%", tone: "seal" },
+                    { label: "Survivors with children", value: 52, display: "52%", tone: "ink" },
+                  ]}
+                />
+                <p className="source">Citizens Advice and Opinium, survey of 1,019 survivors (fieldwork 2019), published February 2020.</p>
+              </Reveal>
+
+              <Reveal as="article" className="card stat" delay={0}>
                 <div className="stat-top"><span className="eyebrow">AU · Insiders</span></div>
                 <div className="stat-num"><CountUp value={2215} comma /></div>
                 <p className="stat-claim">allegations of misused confidential information in four years, across just seven Queensland agencies. Outside the police they grew <b>4.8×</b>, in health, schools and corrections.</p>
@@ -259,6 +283,7 @@ export function Landing() {
             <li>ABS, Personal Safety, Australia 2021–22 (Partner violence).</li>
             <li>CCC Queensland, Operation Impala Exhibit 95, 2019.</li>
             <li>UK Information Commissioner's Office, domestic abuse data breaches, 29 Sep 2023; Charnwood Borough Council reprimand, 29 Nov 2023.</li>
+            <li>NSW Domestic Violence Death Review Team, Report 2021–23. Citizens Advice / Opinium survivor survey, February 2020.</li>
             <li>QCAT decision on Queensland Police Service, reported 2018–2019; Queensland Information Commissioner, Prioritising privacy to keep victims safe, Dec 2025.</li>
           </ol>
         </div>

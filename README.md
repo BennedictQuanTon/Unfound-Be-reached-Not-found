@@ -34,7 +34,7 @@ The threat is not a hacker. It is one person with legitimate access doing one lo
 | **1.5 million** | Australian women have experienced violence from a *previous* partner, about nine times more than from a current one [1] |
 | **866,700** | of them moved out when it ended. Each move put a new address into school, GP, bank and electoral records [1] |
 | **~2 in 3** | women killed by an intimate partner in New South Wales were killed after leaving or while separating [2] |
-| **2,215** | allegations of misused confidential information in four years, across seven Queensland agencies [3] |
+| **2,215** | allegations of misused confidential information in four years, across seven Queensland agencies; outside the police they grew 4.8× [3] |
 | **40%** | of UK survivors had their new address disclosed to the abuser, mostly by agencies such as their child's school or the council (52% with children) [8] |
 | **4 of 7** | UK organisations reprimanded for breaching domestic-abuse victims' data (June 2022 – Sept 2023) had revealed a safe address to the alleged abuser [4] |
 
