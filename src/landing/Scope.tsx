@@ -6,6 +6,7 @@ const COVERED: [string, string][] = [
   ["Lookups by staff or a compromised account", "Inside a participating service, each person opens only the part their role allows, and every attempt is logged."],
   ["An admin granting themselves access", "Every grant is a change set that needs two of three independent approvers."],
   ["A breach of Unfound's servers or database", "There is only ciphertext to take. No key is stored with it."],
+  ["A child's school, clinic or pickup record", "Her children's enrolment and appointments use the same sealed parts, so their records are not a back door to her address."],
   ["Letters and forms produced through Unfound", "The street is filled in only at the moment of printing, never saved into a template, note or export."],
 ];
 
@@ -31,7 +32,7 @@ export function Scope() {
           <Reveal><span className="eyebrow">Scope</span></Reveal>
           <h2><Words text="What Unfound protects, and what it *doesn't.*" /></h2>
           <Reveal delay={0.1}>
-            <p>Unfound closes one dangerous path: services that hold a survivor's address and leak it through a lookup, a permission change or a letter. In a UK survey, 40% of survivors had their new address disclosed to the abuser, mostly by agencies such as their child's school or the council <a href="#ref-19">[19]</a>. It is one part of a safety plan, not a replacement for it.</p>
+            <p>Unfound closes one dangerous path: services that hold a survivor's address and leak it through a lookup, a permission change or a letter. In a UK survey, 40% of survivors had their new address disclosed to the abuser, mostly by agencies such as their child's school or the council; 52% for survivors with children <a href="#ref-19">[19]</a>. It is one part of a safety plan, not a replacement for it.</p>
           </Reveal>
         </div>
 

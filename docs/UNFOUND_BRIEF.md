@@ -3,7 +3,7 @@
 **Be reached, not found.**
 A safe-address layer for family-violence survivors, built on Tide.
 
-Prepared for: Tide · Version 1.1 · 27 October 2026
+Prepared for: Tide · Version 1.2 · 27 October 2026
 Repository: https://github.com/BennedictQuanTon/Unfound-Be-reached-Not-found
 Film: `public/video/unfound.mp4` (1:55)
 
@@ -117,6 +117,7 @@ How to read this section: 4.1 and 4.3 show the scale of the danger around a surv
 |---|---|---|
 | **4 of 7** | UK organisations reprimanded for breaching domestic-abuse victims' data (June 2022 – Sept 2023) had revealed a safe address to the alleged abuser; the seven included a benefits agency, police, councils and a hospital trust | UK Information Commissioner, Sept 2023 [31] |
 | **40% · 52%** | of UK survivors had their new address disclosed to the perpetrator, **mostly by agencies such as their child's school or local authorities**; 52% for survivors with children (1,019 survivors, 2019 fieldwork) | Citizens Advice / Opinium, Feb 2020 [35] |
+| **More than half** | of the people protected by California's address-confidentiality program are school-aged children: a child's records carry the household's address | CA Secretary of State, Safe at Home, 2023 [27] |
 | **2021** | Services Australia disclosed a survivor's new address to her former partner; the OAIC ordered an apology, A$19,980 compensation and an audit of how contact details are updated for separating couples | OAIC, via The Conversation [36] |
 | **2023** | an English council saved a survivor's new address in a notes field, then posted a letter containing it to her old home, where her ex-partner opened it | ICO reprimand, Charnwood BC [32] |
 | **2,215** | allegations of misused confidential information in four years across seven Queensland agencies | CCC Queensland, 2019 [7] |
@@ -204,10 +205,10 @@ flowchart TB
 | Covered | Not covered |
 |---|---|
 | Lookups by staff or compromised accounts inside a participating service: each opens only the tag its role allows, and every attempt is logged | Being followed, GPS trackers, shared location accounts |
-| An admin granting themselves access: a change set that needs 2 of 3 approvers | Friends, family or neighbours who already know the address |
-| A breach of Unfound's servers or database: ciphertext only | Plain-text copies kept by services that have not joined |
-| Letters and forms produced through Unfound: the street is filled in only at print, never saved into a template, note or export | What an authorised person writes down after a legitimate view |
-| | The survivor's own phone if taken or compromised (reduced by design, not prevented) |
+| A child's school, clinic or pickup record: the children's enrolment and appointments use the same sealed parts, so they are not a back door to the household | Friends, family or neighbours who already know the address |
+| An admin granting themselves access: a change set that needs 2 of 3 approvers | Plain-text copies kept by services that have not joined |
+| A breach of Unfound's servers or database: ciphertext only | What an authorised person writes down after a legitimate view |
+| Letters and forms produced through Unfound: the street is filled in only at print, never saved into a template, note or export | The survivor's own phone if taken or compromised (reduced by design, not prevented) |
 
 Each claim in this brief should name: the participating service and workflow, the disclosure path it interrupts, the control that enforces it, and the exposure that remains.
 
@@ -343,7 +344,7 @@ flowchart LR
 | Data tags and roles | 3 tags, 6 `_tide_addr*` roles, quorum 2 of 3 |
 | Bundle (gzip) | 260 KB landing, 67 KB demo chunk, 3 KB DPoP helper |
 | Film | 1:55, 1080p, 27 MB, voice by Kokoro, rendered frame by frame from the real prototype |
-| Research base | 36 cited sources in this brief |
+| Research base | 37 cited sources in this brief |
 | Tide checks (`tide_doctor`) | DPoP client **PASS**, DPoP relay page **PASS**, secrets hygiene **PASS**; adapter waiting on an enrolled realm |
 | Console errors in end-to-end runs | 0 |
 
@@ -435,10 +436,11 @@ Our edge is not an encryption library. It is the combination of three things. Le
 | Phase | When | Goal | Exit criteria |
 |---|---|---|---|
 | **0 · Live on Tide** | Nov–Dec 2026 | Enrolled hosted realm; live mode end to end; Tide's answers on cross-user decryption and one-time views | Full story runs on live Tide; `tide_doctor` all PASS |
-| **1 · Design partners** | Jan–Mar 2027 | Co-design with one family-violence service, one school and one GP clinic; safety review with practitioners | Signed pilot agreement; PIA complete; penetration test passed |
+| **1 · Design partners** | Jan–Mar 2027 | Co-design with one family-violence service, one school and one GP clinic; first workflow mapped end to end: enrolling a survivor's child (collection, viewing, pickup lists, letters, retention, deletion); safety review with practitioners | Signed pilot agreement; PIA complete; penetration test passed |
 | **2 · Supervised pilot** | Apr–Sep 2027 | 20–30 survivors, 3 services, 3 independent approvers | 0 plaintext addresses; 100% of access attempts visible to survivors; median onboarding under 15 minutes; service staff satisfaction ≥ 4/5 |
 | **3 · Integrations** | Oct 2027 – Mar 2028 | Connectors for school enrolment and GP practice systems; court print relay; Forseti one-time views | Two system integrations live; break-glass under 10 minutes end to end |
 | **4 · Scale** | 2028 | Multi-state rollout in Australia; Viet Nam pilot with a local partner under the PDPL | Funded contracts in two states; first Viet Nam partner |
+| **Research** | After the pilot | Whether the same minimum-disclosure pattern could serve children's own data more broadly (for example "meets age requirement" instead of a birth date). A separate product decision, not part of the pilot | A written recommendation: roadmap, separate product, or research only |
 
 ---
 
@@ -465,6 +467,7 @@ Our edge is not an encryption library. It is the combination of three things. Le
 | Services resist new workflows | Start with a relay and "in zone" answers, which are less work than today's process |
 | Approver availability in emergencies | Rosters across agencies, quorum sized to on-call capacity, escalation path to existing police powers |
 | Misreading statistics | Every figure cited with its denominator; Operation Impala counts allegations, not proven cases; population statistics are never presented as harm Unfound prevents |
+| Parental consent is not the same as a safe guardian | A parent with legal responsibility can be the abuser. Australia's draft Children's Online Privacy Code (exposure draft 31 Mar 2026; to be registered by 10 Dec 2026, start date not yet set) has a parent or guardian consent for children under 15 [37]. Unfound grants access per tag and through a quorum, never because someone is "the parent" |
 | Overclaiming protection | Copy says "look up", not "find"; a published Covered / Not covered boundary; status split into simulated, implemented and verified |
 | Plain-text copies outside Unfound | Map each pilot workflow end to end (collection, viewing, export, correspondence, retention, deletion) and remove or replace each copy before go-live |
 | Ethics | Synthetic data only until approved research ethics and practitioner oversight are in place |
@@ -525,5 +528,6 @@ Access date shown for each source.
 34. Australian Institute of Criminology. *Homicide in Australia 2024–25*, Statistical Report 58. Feb 2026. https://www.aic.gov.au/sites/default/files/2026-02/sr58_homicide_in_australia_2024-25.pdf (accessed 27 Oct 2026)
 35. Citizens Advice. "Domestic abuse survivors have lost over £7 billion as perpetrators intercept their post" (Opinium survey of 1,019 survivors, fieldwork 25 Sep – 3 Oct 2019). 28 Feb 2020. https://www.citizensadvice.org.uk/about-us/media-centre/press-releases/domestic-abuse-survivors-have-lost-over-7-billion-as-perpetrators-intercept-their-post-citizens-advice-warns/ (accessed 27 Oct 2026)
 36. C. Fitzpatrick. "For domestic violence victim-survivors, a data or privacy breach can be extraordinarily dangerous". The Conversation, 3 Dec 2023. https://theconversation.com/for-domestic-violence-victim-survivors-a-data-or-privacy-breach-can-be-extraordinarily-dangerous-216630 (accessed 27 Oct 2026)
+37. DLA Piper. "Australia: Exposure draft of Children's Online Privacy Code signals tougher standards" (OAIC exposure draft, 31 Mar 2026). https://privacymatters.dlapiper.com/2026/04/australia-exposure-draft-of-childrens-online-privacy-code-signals-tougher-standards/ ; OAIC exposure draft: https://www.oaic.gov.au/__data/assets/pdf_file/0020/262631/Exposure-Draft-Childrens-Online-Privacy-Code.pdf (accessed 27 Oct 2026)
 
 All people, addresses and records in the prototype are synthetic. Figures from secondary reporting are marked as such; check the primary documents before quoting them publicly.

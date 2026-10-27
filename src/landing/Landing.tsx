@@ -137,7 +137,7 @@ export function Landing() {
               <Reveal delay={0.15}>
                 <p>
                   Leaving is when the risk peaks. Every service a survivor uses afterwards stores the new address in plain text,
-                  readable by staff and every administrator. One lookup, or one misdirected letter, is enough.
+                  readable by staff and every administrator. Her children's records carry it too. One lookup, or one misdirected letter, is enough.
                 </p>
               </Reveal>
             </div>

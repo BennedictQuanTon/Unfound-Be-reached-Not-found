@@ -62,7 +62,7 @@ Unfound seals the address once, on the survivor's own phone, and splits it into 
 
 | | Today | With Unfound |
 |---|---|---|
-| School | The full address | "In Footscray North zone ✓" |
+| Her son's school | The full address | "In Footscray North zone ✓" |
 | GP clinic | Address and phone | Suburb and a relay number |
 | Court mail | The address, sitting in a clerk's file | The street, opened only when the label prints |
 | Police | Any record, at any time | One view, after 2 of 3 approvals |
@@ -141,10 +141,10 @@ How much that path matters, as an estimate: 40% of survivors in one UK survey ha
 | Covered | Not covered |
 |---|---|
 | Lookups by staff or compromised accounts inside a participating service | Being followed, GPS trackers, shared location accounts |
-| An admin granting themselves access | Friends, family or neighbours who already know the address |
-| A breach of Unfound's servers or database | Plain-text copies kept by services that have not joined |
-| Letters and forms produced through Unfound (the street is filled in only at print) | What an authorised person writes down after a legitimate view |
-| | The survivor's own phone if taken or compromised (reduced, not prevented) |
+| A child's school, clinic or pickup record used as a back door to the household | Friends, family or neighbours who already know the address |
+| An admin granting themselves access | Plain-text copies kept by services that have not joined |
+| A breach of Unfound's servers or database | What an authorised person writes down after a legitimate view |
+| Letters and forms produced through Unfound (the street is filled in only at print) | The survivor's own phone if taken or compromised (reduced, not prevented) |
 
 ### Status
 
@@ -225,9 +225,9 @@ A realm in Docker serves only your own machine. A public deployment needs hosted
 | | Milestone |
 |---|---|
 | **Now** | Live on a hosted Tide realm; confirm cross-user decryption and one-time views with Tide |
-| **Next** | Co-design with a family-violence service, a school and a GP clinic; privacy impact assessment and penetration test |
+| **Next** | Co-design with a family-violence service, a school and a GP clinic, starting with one workflow: enrolling a survivor's child. Privacy impact assessment and penetration test |
 | **Then** | Supervised pilot with 20–30 survivors; Forseti contracts for one-time access; school and GP integrations |
-| **Later** | Multi-state rollout in Australia; a Viet Nam pilot under the new Personal Data Protection Law |
+| **Later** | Multi-state rollout in Australia; a Viet Nam pilot under the new Personal Data Protection Law. Research only: whether the same pattern could serve children's own data more broadly |
 
 The full plan, with stakeholders, feasibility and the path to production, is in the [founder brief](docs/UNFOUND_BRIEF.pdf) ([Markdown](docs/UNFOUND_BRIEF.md)).
 

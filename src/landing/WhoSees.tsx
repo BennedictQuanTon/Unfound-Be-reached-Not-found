@@ -4,7 +4,7 @@ import { Reveal, Words } from "../motion/primitives";
 import { ease } from "../motion/tokens";
 
 const ROWS: { who: AvatarKey; name: string; today: string; unfound: string; tag: string }[] = [
-  { who: "school", name: "School registrar", today: "Full address in the enrolment file", unfound: "In Footscray North zone ✓", tag: "addrzone" },
+  { who: "school", name: "Her son's school", today: "Full address in the enrolment file", unfound: "In Footscray North zone ✓", tag: "addrzone" },
   { who: "gp", name: "GP clinic", today: "Address and mobile number", unfound: "Footscray · relay 0400 000 117", tag: "addrcontact" },
   { who: "court", name: "Court mail", today: "Address in a clerk's Word file", unfound: "Opened only as the label prints", tag: "addrfull" },
   { who: "officer", name: "Police", today: "Search the database any time", unfound: "One view after 2 of 3 approve", tag: "break-glass" },
