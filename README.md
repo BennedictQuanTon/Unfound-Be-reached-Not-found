@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/hero.png" alt="Unfound: Every school. Every clinic. No one finds you." width="100%" />
+  <img src="docs/assets/hero.png" alt="Unfound: Every school. Every clinic. No one looks you up." width="100%" />
 </p>
 
 <h1 align="center">unfound</h1>
@@ -7,7 +7,7 @@
 <p align="center">
   <b>Be reached, not found.</b><br/>
   A safe-address layer for family-violence survivors.<br/>
-  Services can reach them after they move. No employee, admin or operator can find them.
+  Services can reach them after they move. No employee, admin or operator can look them up.
 </p>
 
 <p align="center">
@@ -27,7 +27,7 @@
 
 When someone leaves a violent partner, their new address becomes the most dangerous piece of data they own. Then every service they rely on asks for it: their child's school, a new GP, the court, the police. Each one stores it in plain text, where staff and every administrator can read it.
 
-The threat is not a hacker. It is one person with legitimate access, doing one lookup.
+The threat is not a hacker. It is one person with legitimate access doing one lookup, or one letter sent to the wrong address.
 
 | | |
 |---|---|
@@ -35,9 +35,15 @@ The threat is not a hacker. It is one person with legitimate access, doing one l
 | **866,700** | of them moved out when it ended. Each move put a new address into school, GP, bank and electoral records [1] |
 | **~2 in 3** | women killed by an intimate partner in New South Wales were killed after leaving or while separating [2] |
 | **2,215** | allegations of misused confidential information in four years, across seven Queensland agencies [3] |
-| **90.4%** | of Vietnamese women abused by a husband never sought formal help, many for fear of being found [4] |
+| **4 of 7** | UK organisations reprimanded for breaching domestic-abuse victims' data (June 2022 – Sept 2023) had revealed a safe address to the alleged abuser [4] |
 
-In one documented case, a police officer looked up a survivor's new address and passed it to her abuser [5]. Access controls and audit logs cannot prevent this, because the people who configure them are part of the risk.
+The first three rows show why a new address matters; the last two show how addresses leak from the services that hold them. None of these figures measures how much harm Unfound would prevent. Three documented cases show the failure it targets:
+
+- **Queensland, 2014.** A police officer looked up a survivor's new address and passed it to her abuser [5].
+- **Queensland, 2024.** The police records system auto-filled victims' addresses into papers served on offenders; police had known the risk "since at least 2017" [6].
+- **England, 2023.** A council saved a survivor's new address in a notes field, then posted a letter containing it to her old home, where her ex-partner opened it [7].
+
+Access controls and audit logs did not stop any of these, because the failure sat with people and processes that already had access.
 
 ## How it works
 
@@ -124,6 +130,26 @@ await tc.AdminAPI.commitChangeSet({ changeSetId: cs.changeSetId, actionType: cs.
 | Caseworker | `tide-realm-admin`, `selfencrypt` on all tags | Can seal for a client, cannot read |
 | IT admin, advocate | `tide-realm-admin` | Nothing. They can only vote. |
 | Police | Nothing until a quorum grants it | One view |
+
+### Scope: what Unfound protects, and what it doesn't
+
+Unfound closes one path: services that hold a survivor's address and leak it through a lookup, a permission change or a letter. It is one part of a safety plan, not a replacement for it.
+
+| Covered | Not covered |
+|---|---|
+| Lookups by staff or compromised accounts inside a participating service | Being followed, GPS trackers, shared location accounts |
+| An admin granting themselves access | Friends, family or neighbours who already know the address |
+| A breach of Unfound's servers or database | Plain-text copies kept by services that have not joined |
+| Letters and forms produced through Unfound (the street is filled in only at print) | What an authorised person writes down after a legitimate view |
+| | The survivor's own phone if taken or compromised (reduced, not prevented) |
+
+### Status
+
+| | What it covers |
+|---|---|
+| **Verified on live Tide** | A licensed realm with Quorum-Enforced Governance (22 Oct 2026). Enrolling the first account failed when Tide's ORK network answered 3–7 of 20 nodes, so no live encrypt or decrypt has run yet. |
+| **Implemented in code** | TideCloak sign-in with DPoP, `doEncrypt` / `doDecrypt` per tag, AdminAPI change sets, the six tag roles, one-command setup. |
+| **Simulated in the prototype** | The eight-scene story on a mock fabric with the same role and quorum rules. Relay numbers, court printing and the one-view revoke are simulated. |
 
 ### Threat model
 
@@ -225,15 +251,16 @@ docs/              UNFOUND_BRIEF (MD + PDF), DESIGN, TIDE_MCP, LIVE_TIDECLOAK, D
 
 ## References
 
-<sub>Accessed 22–26 October 2026.</sub>
+<sub>Accessed 22–27 October 2026.</sub>
 
-1. ABS. [Personal Safety, Australia 2021–22: Partner violence](https://www.abs.gov.au/statistics/people/crime-and-justice/partner-violence/2021-22).
+1. ABS. [Personal Safety, Australia 2021–22: Partner violence](https://www.abs.gov.au/statistics/people/crime-and-justice/partner-violence/2021-22). Still the latest release; the next survey has no published date.
 2. NSW Domestic Violence Death Review Team, 2021–23 report, as reported by the [Canberra Times](https://www.canberratimes.com.au/story/8723440/report-reveals-shocking-trend-for-women-fleeing-domestic-violence/).
 3. CCC Queensland. [Operation Impala, Exhibit 95](https://www.ccc.qld.gov.au/sites/default/files/Docs/Public-Hearings/Impala/Exhibits/Operation-Impala-Exhibit-95-Queensland-Police-Service-Complaints-and-Allegations-Data-Analysis.PDF) (2019).
-4. UN Viet Nam et al. [National Study on Violence against Women in Viet Nam 2019](https://vietnam.un.org/en/53665-journey-change-second-national-study-violence-against-women-viet-nam-2019-released).
+4. UK Information Commissioner's Office. [Data breaches put domestic abuse victims' lives at risk](https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2023/09/data-breaches-put-domestic-abuse-victims-lives-at-risk-uk-information-commissioner-warns/) (29 Sep 2023).
 5. [QCAT finds Queensland Police liable after an officer leaked a survivor's address](https://www.sydneycriminallawyers.com.au/?p=41673).
-6. OIC Queensland. [Prioritising privacy to keep victims safe](https://www.oic.qld.gov.au/government/compliance-and-audit-reports/prioritising-privacy-to-keep-victims-safe) (2025).
-7. Tide. [TideCloak](https://tide.org/tidecloak) · [Core concepts](https://docs.tide.org/Core-Concepts/core-concepts) · [Quorum-Enforced Governance](https://docs.tide.org/Core-Concepts/iga-workflow) · [React SDK](https://docs.tide.org/Languages/React/tidecloak-react-reference).
+6. OIC Queensland. [Prioritising privacy to keep victims safe](https://www.oic.qld.gov.au/government/compliance-and-audit-reports/prioritising-privacy-to-keep-victims-safe) (Dec 2025).
+7. UK Information Commissioner's Office. [Reprimand to Charnwood Borough Council](https://ico.org.uk/action-weve-taken/enforcement/charnwood-borough-council) (29 Nov 2023).
+8. Tide. [TideCloak](https://tide.org/tidecloak) · [Core concepts](https://docs.tide.org/Core-Concepts/core-concepts) · [Quorum-Enforced Governance](https://docs.tide.org/Core-Concepts/iga-workflow) · [React SDK](https://docs.tide.org/Languages/React/tidecloak-react-reference).
 
 ## Credits
 

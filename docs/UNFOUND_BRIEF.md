@@ -3,7 +3,7 @@
 **Be reached, not found.**
 A safe-address layer for family-violence survivors, built on Tide.
 
-Prepared for: Tide · Version 1.0 · 26 October 2026
+Prepared for: Tide · Version 1.1 · 27 October 2026
 Repository: https://github.com/BennedictQuanTon/Unfound-Be-reached-Not-found
 Film: `public/video/unfound.mp4` (1:55)
 
@@ -33,9 +33,11 @@ Film: `public/video/unfound.mp4` (1:55)
 
 ## 1. Executive summary
 
-**The problem.** When a survivor of family violence leaves, her new address becomes the most dangerous piece of data she owns. Every service she then needs (her child's school, a new GP, the court, the police) stores that address in plain text, readable by staff and by every administrator. The threat is not a hacker. It is one insider with legitimate access doing one lookup. In New South Wales, about two in three women killed by an intimate partner were killed after leaving or while separating [5]. In Queensland, 2,215 allegations of misused confidential information were recorded across seven agencies in four years [7], and a police officer passed a survivor's new address to her abuser [9].
+**The problem.** When a survivor of family violence leaves, her new address becomes the most dangerous piece of data she owns. Every service she then needs (her child's school, a new GP, the court, the police) stores that address in plain text, readable by staff and by every administrator. The threat is not a hacker. It is one insider with legitimate access doing one lookup. In New South Wales, about two in three women killed by an intimate partner were killed after leaving or while separating [5]. In Queensland, 2,215 allegations of misused confidential information were recorded across seven agencies in four years [7], and a police officer passed a survivor's new address to her abuser [9]. In the UK, four of seven organisations reprimanded over domestic-abuse victims' data in 15 months had revealed a safe address to the alleged abuser [31].
 
 **The product.** Unfound seals the address once, on the survivor's phone, in three parts: the full street, the school zone and a contact relay. Each service can open only the part it needs. Opening the full address, even in an emergency, takes two of three independent approvers, for one view, and the survivor sees every attempt in her own "Who looked" log.
+
+**The boundary.** Unfound closes one path: services that hold the address and leak it through a lookup, a permission change or a letter. It does not stop physical or GPS stalking, people who already know the address, or copies held by services that have not joined. It is one part of a safety plan (section 6.2).
 
 **Why Tide.** The promise only holds if no one, including the people who run Unfound, holds a key or can grant themselves access. That is Tide's core design. TideCloak encrypts in the browser with keys that exist only as shards across Tide's Fabric. ORK nodes check a role per data tag before they help decrypt. Every access change is a Quorum-Enforced Governance change set signed by a threshold of admins [20][21][22].
 
@@ -54,7 +56,7 @@ Film: `public/video/unfound.mp4` (1:55)
 
 | | |
 |---|---|
-| **One line** | A safe-address layer: services can reach a survivor after she moves, and no single employee, admin or operator can find her. |
+| **One line** | A safe-address layer: services can reach a survivor after she moves, and no single employee, admin or operator can look her up. |
 | **For whom** | Primary: people who have left a violent partner and moved. Secondary: the services that must contact them. |
 | **Category** | Privacy infrastructure for public and community services (B2G / B2B), free for survivors. |
 | **Core idea** | One address, three sealed parts, one role per part, no master key, no admin override. |
@@ -81,11 +83,11 @@ Film: `public/video/unfound.mp4` (1:55)
 | Name | **Unfound**, written as the lowercase wordmark `unfound`. Two syllables; says what the product protects. |
 | Slogan | **Be reached, not found.** |
 | Support line | Your address, held by no one. |
-| Hero line | Every school. Every clinic. No one finds you. |
+| Hero line | Every school. Every clinic. No one looks you up. |
 | Mark | "The pin with no point": a map-pin head drawn as an open arch with a dot inside. The point that would land on a location is missing. Read twice, it is also a doorway. |
 | Palette | Obsidian `#000000`, Canvas `#ffffff`, Fog `#f9fafb`, Slate Mist `#e5e7eb`, Stone `#c9c9c9`, Graphite `#6e6e6e`; Lam Wash `#e2eeff` for sealed surfaces, Lam Seal `#8dbbff` for the number to remember, Lam `#3d8bff` for the one call to action. |
 | Type | Geist (display, weight 600), Inter (UI), system monospace for ciphertext. |
-| Voice | Short, calm, factual. Say "survivor". Never show violence. Name what people can now do, not the security mechanism. |
+| Voice | Short, calm, factual. Say "survivor". Never show violence. Name what people can now do, not the security mechanism. Claim only what the boundary covers: "look up", not "find". |
 | Status language | Form and words, not red and green: **SEALED**, **DENIED**, **PENDING**, **APPROVED**. |
 
 The full design system is in `docs/DESIGN.md`.
@@ -93,6 +95,8 @@ The full design system is in `docs/DESIGN.md`.
 ---
 
 ## 4. The problem
+
+How to read this section: 4.1 and 4.3 show the scale of the danger around a survivor's address. They do **not** measure how much harm Unfound would prevent. 4.2 shows the specific pathway Unfound targets: services leaking the address they hold.
 
 ### 4.1 Leaving is when the risk peaks
 
@@ -103,14 +107,16 @@ The full design system is in `docs/DESIGN.md`.
 | **1.5 million** | Australian women have experienced violence from a *previous* cohabiting partner (16%), about nine times the 173,300 who experienced it from a current one | ABS PSS 2021–22 [3] |
 | **64% · 866,700** | of those women moved out when the relationship ended: each move is a new address in school, GP, bank and electoral records | ABS PSS 2021–22 [3] |
 | **~2 in 3** | women killed by a male intimate partner in NSW were killed after leaving or while separating | NSW DVDRT 2021–23 [5] |
-| **34 · +28%** | women killed by an intimate partner in Australia in 2022–23, up 28% in a year | AIC, via LSJ [6] |
+| **46 · 0.43 per 100,000** | female intimate-partner homicide incidents in Australia in 2023–24, the largest one-year rise in over a decade (34 the year before). The 2024–25 report, measured on women aged 18 and over, shows a lower rate of 0.29 | AIC, Homicide in Australia 2023–24 and 2024–25 [33][34] |
 | **A$22 billion** | estimated cost of violence against women and their children in Australia in 2015–16 | KPMG for DSS, 2016 [4] |
-| **90.4%** | of Vietnamese women abused physically or sexually by a husband never sought formal help; fear of stigma and further harassment was a main reason | National Study on VAW in Viet Nam 2019 [12] |
+| **90.4%** | of Vietnamese women abused physically or sexually by a husband did not seek help from formal services; about half had never told anyone. Still the latest national study | National Study on VAW in Viet Nam 2019 [12] |
 
-### 4.2 The threat is the insider
+### 4.2 The pathway Unfound targets: services that leak the address they hold
 
 | Figure | What it means | Source |
 |---|---|---|
+| **4 of 7** | UK organisations reprimanded for breaching domestic-abuse victims' data (June 2022 – Sept 2023) had revealed a safe address to the alleged abuser; the seven included a benefits agency, police, councils and a hospital trust | UK Information Commissioner, Sept 2023 [31] |
+| **2023** | an English council saved a survivor's new address in a notes field, then posted a letter containing it to her old home, where her ex-partner opened it | ICO reprimand, Charnwood BC [32] |
 | **2,215** | allegations of misused confidential information in four years across seven Queensland agencies | CCC Queensland, 2019 [7] |
 | **4.8×** | growth of those allegations outside the police (health, education, corrections, transport): 65 → 312 a year | CCC Queensland, 2019 [7] |
 | **87%** | of police allegations (1,391 of 1,591) were unauthorised access or unauthorised disclosure | CCC Queensland, 2019 [7] |
@@ -119,7 +125,9 @@ The full design system is in `docs/DESIGN.md`.
 | **US$17.4 million** | average annual cost of insider risk per organisation; 81 days to contain an incident | Ponemon / DTEX, 2025 [17] |
 | **1,205** | data-breach notifications to the OAIC in 2025, an all-time high; health providers were the most affected sector (19%) | OAIC, 2026 [16] |
 
-### 4.3 Technology already serves the abuser
+### 4.3 Outside Unfound's boundary: technology-facilitated stalking
+
+These figures explain why Unfound must sit inside a wider safety plan. Unfound does not detect trackers or shared-location accounts.
 
 | Figure | What it means | Source |
 |---|---|---|
@@ -189,7 +197,19 @@ flowchart TB
 | **04 · Emergencies, with witnesses** | Police request break-glass; two approvers sign; one view; the role is revoked. | Signed change sets |
 | **05 · Survivor sees who looked** | Every attempt, approval, refusal and view appears in her own log. | Change-set history, Fabric results |
 
-### 6.2 The story the prototype plays (`/demo?story=1`)
+### 6.2 Scope: what Unfound protects, and what it doesn't
+
+| Covered | Not covered |
+|---|---|
+| Lookups by staff or compromised accounts inside a participating service: each opens only the tag its role allows, and every attempt is logged | Being followed, GPS trackers, shared location accounts |
+| An admin granting themselves access: a change set that needs 2 of 3 approvers | Friends, family or neighbours who already know the address |
+| A breach of Unfound's servers or database: ciphertext only | Plain-text copies kept by services that have not joined |
+| Letters and forms produced through Unfound: the street is filled in only at print, never saved into a template, note or export | What an authorised person writes down after a legitimate view |
+| | The survivor's own phone if taken or compromised (reduced by design, not prevented) |
+
+Each claim in this brief should name: the participating service and workflow, the disclosure path it interrupts, the control that enforces it, and the exposure that remains.
+
+### 6.3 The story the prototype plays (`/demo?story=1`)
 
 | Scene | Person · device | What happens |
 |---|---|---|
@@ -301,11 +321,18 @@ flowchart LR
 | Data tags and roles | 3 tags, 6 `_tide_addr*` roles, quorum 2 of 3 |
 | Bundle (gzip) | 260 KB landing, 67 KB demo chunk, 3 KB DPoP helper |
 | Film | 1:55, 1080p, 27 MB, voice by Kokoro, rendered frame by frame from the real prototype |
-| Research base | 15 cited sources in the README, 30 in this brief |
+| Research base | 34 cited sources in this brief |
 | Tide checks (`tide_doctor`) | DPoP client **PASS**, DPoP relay page **PASS**, secrets hygiene **PASS**; adapter waiting on an enrolled realm |
 | Console errors in end-to-end runs | 0 |
 
-### 9.2 Live Tide status, stated plainly
+### 9.2 Status: simulated, implemented, verified
+
+| Level | What it covers |
+|---|---|
+| **Verified on live Tide** | A licensed realm with Quorum-Enforced Governance. No live encrypt or decrypt has run yet (see below). |
+| **Implemented in code** | TideCloak sign-in with DPoP, `doEncrypt` / `doDecrypt` per tag, AdminAPI change sets, the six tag roles, one-command setup. |
+| **Simulated in the prototype** | The eight-scene story on a mock fabric with the same role and quorum rules; relay numbers, court printing and the one-view revoke. |
+
 
 The realm `unfound1` was provisioned and licensed on local TideCloak with QEA on. Creating the first Tide account then failed on every attempt on 22 October 2026, inside Tide's enclave: "Could not reach enough NEW ORKs (got 3 of 20 required)" and "(got 7 of 20 required)". Earlier licence attempts had returned "Midgard.FinalizeWallet: Not enough orks returned an ok response". The live path switches on as soon as `public/tidecloak.json` holds an enrolled realm. Screenshots are in `docs/assets/`.
 
@@ -315,13 +342,16 @@ The realm `unfound1` was provisioned and licensed on local TideCloak with QEA on
 
 | | Survivor chooses what each service sees | Insiders and admins cannot read it | No single person can grant access | Emergency access with witnesses | Survivor sees who looked | Works across services |
 |---|:-:|:-:|:-:|:-:|:-:|:-:|
+| Collecting less: each service keeps only what it needs | ◐ | ◐ | – | – | – | – |
 | Silent elector (AU) [24] | – | ◐ | – | – | – | – |
 | Address Confidentiality Programs (US) [25][26] | ◐ | ◐ | – | ◐ | – | ◐ |
 | Role-based access + audit logs [7][8] | – | – | – | ◐ | – | – |
 | Encryption at rest, provider-held key [23] | – | – | – | – | – | ◐ |
 | **Unfound on Tide** [20][21][22] | **●** | **●** | **●** | **●** | **●** | **●** |
 
-● yes · ◐ partly · – no. Our assessment, from the public descriptions cited.
+● yes · ◐ partly · – no. Our assessment, from the public descriptions cited. Unfound's marks hold only for services that join it.
+
+Collecting less is the simplest alternative and should come first: a school that never stores the street cannot leak it. Unfound makes that minimum consistent across services, and adds what minimisation alone cannot: emergency access with witnesses, no single person able to grant access, and a record the survivor can see.
 
 Our edge is not an encryption library. It is the combination of three things. Least-privilege disclosure per service, enforced outside our control. Governance where no single person, including us, can grant access. And a survivor-facing record of every attempt. Tide is what makes all three possible together.
 
@@ -412,7 +442,9 @@ Our edge is not an encryption library. It is the combination of three things. Le
 | Survivor's device is compromised or coerced | Quick exit, nothing shown by default, caseworker recovery, safety planning |
 | Services resist new workflows | Start with a relay and "in zone" answers, which are less work than today's process |
 | Approver availability in emergencies | Rosters across agencies, quorum sized to on-call capacity, escalation path to existing police powers |
-| Misreading statistics | Every figure cited with its denominator; Operation Impala counts allegations, not proven cases |
+| Misreading statistics | Every figure cited with its denominator; Operation Impala counts allegations, not proven cases; population statistics are never presented as harm Unfound prevents |
+| Overclaiming protection | Copy says "look up", not "find"; a published Covered / Not covered boundary; status split into simulated, implemented and verified |
+| Plain-text copies outside Unfound | Map each pilot workflow end to end (collection, viewing, export, correspondence, retention, deletion) and remove or replace each copy before go-live |
 | Ethics | Synthetic data only until approved research ethics and practitioner oversight are in place |
 
 ---
@@ -465,5 +497,9 @@ Access date shown for each source.
 28. Tide. *Pricing*. https://tide.org/pricing (accessed 26 Oct 2026)
 29. Department of Social Services, Ministers. "Working to keep women safe" (2024–25 Budget). https://ministers.dss.gov.au/media-releases/14661 (accessed 26 Oct 2026)
 30. ACARA. *National Report on Schooling in Australia 2024: school numbers* (ABS Schools 2024). https://acara.edu.au/reporting/national-report-on-schooling-in-australia/school-numbers (accessed 26 Oct 2026)
+31. UK Information Commissioner's Office. "Data breaches put domestic abuse victims' lives at risk, UK Information Commissioner warns". 29 Sep 2023. https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2023/09/data-breaches-put-domestic-abuse-victims-lives-at-risk-uk-information-commissioner-warns/ (accessed 27 Oct 2026)
+32. UK Information Commissioner's Office. *Reprimand: Charnwood Borough Council*. 29 Nov 2023. https://ico.org.uk/action-weve-taken/enforcement/charnwood-borough-council (accessed 27 Oct 2026)
+33. Australian Institute of Criminology. *Homicide in Australia 2023–24*, Statistical Report 52. Mar 2025. https://www.aic.gov.au/sites/default/files/2025-03/sr52_homicide_in_australia_2023-24.pdf (accessed 27 Oct 2026)
+34. Australian Institute of Criminology. *Homicide in Australia 2024–25*, Statistical Report 58. Feb 2026. https://www.aic.gov.au/sites/default/files/2026-02/sr58_homicide_in_australia_2024-25.pdf (accessed 27 Oct 2026)
 
 All people, addresses and records in the prototype are synthetic. Figures from secondary reporting are marked as such; check the primary documents before quoting them publicly.

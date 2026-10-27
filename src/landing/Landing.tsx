@@ -10,12 +10,13 @@ import { Stack } from "./Stack";
 import { Prototype } from "./Prototype";
 import { Approach } from "./Approach";
 import { Compare, References } from "./Compare";
+import { Scope } from "./Scope";
 import { CountUp, Reveal, ScrollWords, Words } from "../motion/primitives";
 import { Intro, introSeen } from "../motion/Intro";
 import { ease } from "../motion/tokens";
 
 // Clutch's hero move: the headline sits in light gray and one phrase at a time turns black.
-const PHRASES = ["Every school.", "Every clinic.", "No one finds you."];
+const PHRASES = ["Every school.", "Every clinic.", "No one looks you up."];
 
 function HeroHeadline({ play, delay }: { play: boolean; delay: number }) {
   const [on, setOn] = useState(-1);
@@ -115,7 +116,8 @@ export function Landing() {
             <HeroHeadline play={ready} delay={base} />
             <motion.p className="lede" {...rise(ready, base + 0.4)}>
               A safe address for family-violence survivors.<br />
-              Services reach you. No admin can find you.
+              Services can reach you.<br />
+              No single admin can look you up.
             </motion.p>
             <motion.div className="hero-ctas" {...rise(ready, base + 0.5)}>
               <Link to="/demo?story=1" className="btn lam lg" data-sfx="whoosh">Play the story</Link>
@@ -135,7 +137,7 @@ export function Landing() {
               <Reveal delay={0.15}>
                 <p>
                   Leaving is when the risk peaks. Every service a survivor uses afterwards stores the new address in plain text,
-                  readable by thousands of staff and every administrator. One lookup by one insider is enough.
+                  readable by staff and every administrator. One lookup, or one misdirected letter, is enough.
                 </p>
               </Reveal>
             </div>
@@ -191,20 +193,19 @@ export function Landing() {
               </Reveal>
 
               <Reveal as="article" className="card stat" delay={0.08}>
-                <div className="stat-top"><span className="eyebrow">VN · Silence</span></div>
-                <div className="stat-num"><CountUp value={90.4} decimals={1} suffix="%" /></div>
-                <p className="stat-claim">of Vietnamese women abused physically or sexually by a husband never went to a formal service. Fear of stigma and further harassment was a main reason.</p>
+                <div className="stat-top"><span className="eyebrow">UK · Regulator</span></div>
+                <div className="stat-num"><CountUp value={4} suffix=" of 7" /></div>
+                <p className="stat-claim">organisations reprimanded in 15 months for breaching domestic-abuse victims' data had <b>revealed a safe address to the alleged abuser</b>. The seven included a benefits agency, police, councils and a hospital trust.</p>
                 <BarChart
-                  label="National Study on Violence against Women in Viet Nam 2019"
-                  max={100}
-                  ticks={["0%", "25%", "50%", "75%", "100%"]}
+                  label="UK Information Commissioner reprimands for data breaches affecting domestic abuse victims, June 2022 to September 2023"
+                  max={8}
+                  ticks={["0", "2", "4", "6", "8"]}
                   bars={[
-                    { label: "Ever abused by husband (married women)", value: 62.9, display: "62.9%", tone: "ctx" },
-                    { label: "Told no one at all", value: 50, display: "~50%", tone: "ink" },
-                    { label: "Never sought formal help", value: 90.4, display: "90.4%", tone: "seal" },
+                    { label: "Reprimands · victims' data", value: 7, display: "7", tone: "ctx" },
+                    { label: "Safe address sent to the abuser", value: 4, display: "4", tone: "seal" },
                   ]}
                 />
-                <p className="source">MOLISA, GSO, UNFPA and DFAT, National Study on Violence against Women in Viet Nam 2019.</p>
+                <p className="source">UK Information Commissioner's Office, statement of 29 September 2023.</p>
               </Reveal>
             </div>
 
@@ -215,7 +216,11 @@ export function Landing() {
               </Reveal>
               <Reveal className="case" delay={0.1}>
                 <span className="eyebrow">Queensland · 2024</span>
-                <p>The same system auto-filled survivors' addresses into forms served on offenders. The Information Commissioner found police had known the risk "since at least 2017".</p>
+                <p>The same system auto-filled survivors' addresses into forms served on offenders. In 2025 the Information Commissioner found police had known the risk "since at least 2017".</p>
+              </Reveal>
+              <Reveal className="case" delay={0.2}>
+                <span className="eyebrow">England · 2023</span>
+                <p>A council filed a survivor's new address in a notes field, then posted a letter containing it to her old home. Her ex-partner opened it. The regulator issued a reprimand.</p>
               </Reveal>
             </div>
           </div>
@@ -226,6 +231,7 @@ export function Landing() {
         <WhoSees />
         <Stack />
         <Prototype />
+        <Scope />
         <Compare />
         <References />
 
@@ -252,8 +258,8 @@ export function Landing() {
           <ol>
             <li>ABS, Personal Safety, Australia 2021–22 (Partner violence).</li>
             <li>CCC Queensland, Operation Impala Exhibit 95, 2019.</li>
-            <li>National Study on Violence against Women in Viet Nam 2019 (MOLISA, GSO, UNFPA, DFAT).</li>
-            <li>QCAT decision on Queensland Police Service, reported 2018–2019; Queensland Information Commissioner, QPrime report, 2025.</li>
+            <li>UK Information Commissioner's Office, domestic abuse data breaches, 29 Sep 2023; Charnwood Borough Council reprimand, 29 Nov 2023.</li>
+            <li>QCAT decision on Queensland Police Service, reported 2018–2019; Queensland Information Commissioner, Prioritising privacy to keep victims safe, Dec 2025.</li>
           </ol>
         </div>
       </footer>

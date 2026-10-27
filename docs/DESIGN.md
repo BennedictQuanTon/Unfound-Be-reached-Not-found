@@ -124,7 +124,7 @@ Black, white, greys and light blue. Nothing else.
 ## Hero scene, devices and people
 
 - **Hero scene** (after clutch.security's orbit): a dark radial platform with film grain, the Unfound mark extruded as a door (18 dark layers, pale Lam front face), and 20 coins (Lucide icons) floating around it. Lam coins are services that can reach her; black coins are everything that must not find her. Coins drop in on a spring, bob on 4–7 s loops, follow the pointer with depth parallax, and a Lam ring pings out of the door every 1.8 s.
-- **Hero headline**: three phrases on two lines ("Every school. Every clinic. / No one finds you."), Stone by default, one phrase at a time turns Obsidian.
+- **Hero headline**: three phrases on two lines ("Every school. Every clinic. / No one looks you up."), Stone by default, one phrase at a time turns Obsidian.
 - **Devices**: flat CSS iPhone, iPad and MacBook frames (`src/ui/Device.tsx`). Survivor screens run in the iPhone, police in the iPad, everyone else in the MacBook.
 - **People**: Notionists (Zoish, CC0) generated locally with DiceBear, line-drawn, on Fog or Lam Wash circles.
 - **Demo story**: callouts are Obsidian cards with a Seal dot, spring in with the pop sound; the device zooms (scale ≤ 1.32) onto the feature and rings it in Lam.

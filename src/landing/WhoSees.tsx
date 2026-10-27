@@ -31,7 +31,7 @@ export function WhoSees() {
       <div className="container">
         <div className="section-head">
           <Reveal><span className="eyebrow">Who sees what</span></Reveal>
-          <h2><Words text="Every service can reach her. None can find her." /></h2>
+          <h2><Words text="Every service can reach her. None can look her up." /></h2>
         </div>
         <ol className="ws-list">
           {ROWS.map((r, i) => (

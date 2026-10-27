@@ -15,6 +15,7 @@ const PROOF: { v: number; d?: number; suffix?: string; prefix?: string; comma?: 
 type Mark = "yes" | "part" | "no";
 const COLS = ["Survivor chooses what each service sees", "Insiders and admins cannot read it", "No single person can grant access", "Emergency access with witnesses", "Survivor sees who looked", "Works across services"];
 const ROWS: { name: string; cite: number[]; marks: Mark[]; us?: boolean }[] = [
+  { name: "Collecting less: each service keeps only what it needs", cite: [], marks: ["part", "part", "no", "no", "no", "no"] },
   { name: "Silent elector enrolment (AU)", cite: [8], marks: ["no", "part", "no", "no", "no", "no"] },
   { name: "Address Confidentiality Programs (US states)", cite: [9, 10], marks: ["part", "part", "no", "part", "no", "part"] },
   { name: "Role-based access + audit logs (e.g. police records systems)", cite: [3, 5], marks: ["no", "no", "no", "part", "no", "no"] },
@@ -92,15 +93,15 @@ export function Compare() {
           </table>
         </Reveal>
         <p className="source" style={{ marginTop: 12 }}>
-          <Cell m="yes" /> yes · <Cell m="part" /> partly or only in some places · <Cell m="no" /> no. Assessments are ours, from the public descriptions cited.
+          <Cell m="yes" /> yes · <Cell m="part" /> partly or only in some places · <Cell m="no" /> no. Assessments are ours, from the public descriptions cited. Unfound's marks hold for the services that join it; see <a href="#scope">Scope</a>.
         </p>
-        <p className="source accessed">Sources accessed 22 October 2026. Programs and products change; check the cited pages for their current features.</p>
+        <p className="source accessed">Sources accessed 22–27 October 2026. Programs and products change; check the cited pages for their current features.</p>
       </div>
     </section>
   );
 }
 
-export const REFS: { n: number; text: string; url: string }[] = [
+export const REFS: { n: number; text: string; url: string; on?: string }[] = [
   { n: 1, text: "Australian Bureau of Statistics. Personal Safety, Australia 2021–22: Partner violence.", url: "https://www.abs.gov.au/statistics/people/crime-and-justice/partner-violence/2021-22" },
   { n: 2, text: "Crime and Corruption Commission Queensland. Operation Impala, Exhibit 95: misuse of confidential information, 2015–2019.", url: "https://www.ccc.qld.gov.au/sites/default/files/Docs/Public-Hearings/Impala/Exhibits/Operation-Impala-Exhibit-95-Queensland-Police-Service-Complaints-and-Allegations-Data-Analysis.PDF" },
   { n: 3, text: "Crime and Corruption Commission Queensland. Agencies must ensure Queenslanders' confidential information is protected (2020).", url: "https://www.ccc.qld.gov.au/news/agencies-must-ensure-queenslanders-confidential-information-protected" },
@@ -116,6 +117,9 @@ export const REFS: { n: number; text: string; url: string }[] = [
   { n: 13, text: "Tide documentation. Quorum-Enforced Governance workflow.", url: "https://docs.tide.org/Core-Concepts/iga-workflow" },
   { n: 14, text: "Tide documentation. TideCloak React SDK reference (doEncrypt, doDecrypt).", url: "https://docs.tide.org/Languages/React/tidecloak-react-reference" },
   { n: 15, text: "Tide. UNLOCKED, Challenge 2 of the RMIT hackathon.", url: "https://tide.org/unlocked/" },
+  { n: 16, text: "UK Information Commissioner's Office. Data breaches put domestic abuse victims' lives at risk (seven reprimands since June 2022), 29 Sep 2023.", url: "https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2023/09/data-breaches-put-domestic-abuse-victims-lives-at-risk-uk-information-commissioner-warns/", on: "27 Oct 2026" },
+  { n: 17, text: "UK Information Commissioner's Office. Reprimand to Charnwood Borough Council, 29 Nov 2023.", url: "https://ico.org.uk/action-weve-taken/enforcement/charnwood-borough-council", on: "27 Oct 2026" },
+  { n: 18, text: "Office of the Information Commissioner Queensland. Prioritising privacy to keep victims safe, Dec 2025.", url: "https://www.oic.qld.gov.au/government/compliance-and-audit-reports/prioritising-privacy-to-keep-victims-safe", on: "26 Oct 2026" },
 ];
 
 export function References() {
@@ -127,7 +131,7 @@ export function References() {
             <Reveal><span className="eyebrow">References</span></Reveal>
             <h2 className="refs-title"><Words text="Sources." /></h2>
             <Reveal delay={0.1}><p>Statistics were checked against the primary documents where they were available.</p></Reveal>
-            <p className="source accessed">All links accessed 22 October 2026.</p>
+            <p className="source accessed">Links accessed 22–27 October 2026.</p>
           </div>
           <ol className="refs-list">
             {REFS.map((r) => (
@@ -135,7 +139,7 @@ export function References() {
                 <span className="ref-n">{String(r.n).padStart(2, "0")}</span>
                 <span>
                   <a href={r.url} target="_blank" rel="noreferrer">{r.text}</a>
-                  <span className="ref-date"> Accessed 22 Oct 2026.</span>
+                  <span className="ref-date"> Accessed {r.on ?? "22 Oct 2026"}.</span>
                 </span>
               </li>
             ))}
