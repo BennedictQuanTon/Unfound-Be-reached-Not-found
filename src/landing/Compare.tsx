@@ -120,6 +120,7 @@ export const REFS: { n: number; text: string; url: string; on?: string }[] = [
   { n: 16, text: "UK Information Commissioner's Office. Data breaches put domestic abuse victims' lives at risk (seven reprimands since June 2022), 29 Sep 2023.", url: "https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2023/09/data-breaches-put-domestic-abuse-victims-lives-at-risk-uk-information-commissioner-warns/", on: "27 Oct 2026" },
   { n: 17, text: "UK Information Commissioner's Office. Reprimand to Charnwood Borough Council, 29 Nov 2023.", url: "https://ico.org.uk/action-weve-taken/enforcement/charnwood-borough-council", on: "27 Oct 2026" },
   { n: 18, text: "Office of the Information Commissioner Queensland. Prioritising privacy to keep victims safe, Dec 2025.", url: "https://www.oic.qld.gov.au/government/compliance-and-audit-reports/prioritising-privacy-to-keep-victims-safe", on: "26 Oct 2026" },
+  { n: 19, text: "Citizens Advice. Domestic abuse survivors have lost over £7 billion as perpetrators intercept their post (Opinium survey of 1,019 survivors), 28 Feb 2020.", url: "https://www.citizensadvice.org.uk/about-us/media-centre/press-releases/domestic-abuse-survivors-have-lost-over-7-billion-as-perpetrators-intercept-their-post-citizens-advice-warns/", on: "27 Oct 2026" },
 ];
 
 export function References() {

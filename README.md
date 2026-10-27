@@ -35,9 +35,10 @@ The threat is not a hacker. It is one person with legitimate access doing one lo
 | **866,700** | of them moved out when it ended. Each move put a new address into school, GP, bank and electoral records [1] |
 | **~2 in 3** | women killed by an intimate partner in New South Wales were killed after leaving or while separating [2] |
 | **2,215** | allegations of misused confidential information in four years, across seven Queensland agencies [3] |
+| **40%** | of UK survivors had their new address disclosed to the abuser, mostly by agencies such as their child's school or the council (52% with children) [8] |
 | **4 of 7** | UK organisations reprimanded for breaching domestic-abuse victims' data (June 2022 – Sept 2023) had revealed a safe address to the alleged abuser [4] |
 
-The first three rows show why a new address matters; the last two show how addresses leak from the services that hold them. None of these figures measures how much harm Unfound would prevent. Three documented cases show the failure it targets:
+The first three rows show why a new address matters; the last three show how addresses leak from the services that hold them. None of these figures measures how much harm Unfound would prevent. Three documented cases show the failure it targets:
 
 - **Queensland, 2014.** A police officer looked up a survivor's new address and passed it to her abuser [5].
 - **Queensland, 2024.** The police records system auto-filled victims' addresses into papers served on offenders; police had known the risk "since at least 2017" [6].
@@ -134,6 +135,8 @@ await tc.AdminAPI.commitChangeSet({ changeSetId: cs.changeSetId, actionType: cs.
 ### Scope: what Unfound protects, and what it doesn't
 
 Unfound closes one path: services that hold a survivor's address and leak it through a lookup, a permission change or a letter. It is one part of a safety plan, not a replacement for it.
+
+How much that path matters, as an estimate: 40% of survivors in one UK survey had their address disclosed by an agency [8]. If Unfound stops 70–90% of those leaks inside the services that join, it would spare about **1 in 12** survivors in a pilot (a quarter of their services joined), **1 in 5** in a regional rollout and up to **1 in 3** if every service joined. The method and its limits are in the [brief](docs/UNFOUND_BRIEF.md), section 6.3.
 
 | Covered | Not covered |
 |---|---|
@@ -260,7 +263,8 @@ docs/              UNFOUND_BRIEF (MD + PDF), DESIGN, TIDE_MCP, LIVE_TIDECLOAK, D
 5. [QCAT finds Queensland Police liable after an officer leaked a survivor's address](https://www.sydneycriminallawyers.com.au/?p=41673).
 6. OIC Queensland. [Prioritising privacy to keep victims safe](https://www.oic.qld.gov.au/government/compliance-and-audit-reports/prioritising-privacy-to-keep-victims-safe) (Dec 2025).
 7. UK Information Commissioner's Office. [Reprimand to Charnwood Borough Council](https://ico.org.uk/action-weve-taken/enforcement/charnwood-borough-council) (29 Nov 2023).
-8. Tide. [TideCloak](https://tide.org/tidecloak) · [Core concepts](https://docs.tide.org/Core-Concepts/core-concepts) · [Quorum-Enforced Governance](https://docs.tide.org/Core-Concepts/iga-workflow) · [React SDK](https://docs.tide.org/Languages/React/tidecloak-react-reference).
+8. Citizens Advice. [Domestic abuse survivors have lost over £7 billion as perpetrators intercept their post](https://www.citizensadvice.org.uk/about-us/media-centre/press-releases/domestic-abuse-survivors-have-lost-over-7-billion-as-perpetrators-intercept-their-post-citizens-advice-warns/) (Opinium survey of 1,019 survivors, 28 Feb 2020).
+9. Tide. [TideCloak](https://tide.org/tidecloak) · [Core concepts](https://docs.tide.org/Core-Concepts/core-concepts) · [Quorum-Enforced Governance](https://docs.tide.org/Core-Concepts/iga-workflow) · [React SDK](https://docs.tide.org/Languages/React/tidecloak-react-reference).
 
 ## Credits
 

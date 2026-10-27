@@ -37,7 +37,7 @@ Film: `public/video/unfound.mp4` (1:55)
 
 **The product.** Unfound seals the address once, on the survivor's phone, in three parts: the full street, the school zone and a contact relay. Each service can open only the part it needs. Opening the full address, even in an emergency, takes two of three independent approvers, for one view, and the survivor sees every attempt in her own "Who looked" log.
 
-**The boundary.** Unfound closes one path: services that hold the address and leak it through a lookup, a permission change or a letter. It does not stop physical or GPS stalking, people who already know the address, or copies held by services that have not joined. It is one part of a safety plan (section 6.2).
+**The boundary.** Unfound closes one path: services that hold the address and leak it through a lookup, a permission change or a letter. In a UK survey, 40% of survivors had their new address disclosed to the abuser, mostly by agencies [35]; we estimate Unfound could spare about 1 in 12 survivors that disclosure in a pilot and up to about 1 in 3 if every service joined (section 6.3). It does not stop physical or GPS stalking, people who already know the address, or copies held by services that have not joined. It is one part of a safety plan (section 6.2).
 
 **Why Tide.** The promise only holds if no one, including the people who run Unfound, holds a key or can grant themselves access. That is Tide's core design. TideCloak encrypts in the browser with keys that exist only as shards across Tide's Fabric. ORK nodes check a role per data tag before they help decrypt. Every access change is a Quorum-Enforced Governance change set signed by a threshold of admins [20][21][22].
 
@@ -116,6 +116,8 @@ How to read this section: 4.1 and 4.3 show the scale of the danger around a surv
 | Figure | What it means | Source |
 |---|---|---|
 | **4 of 7** | UK organisations reprimanded for breaching domestic-abuse victims' data (June 2022 – Sept 2023) had revealed a safe address to the alleged abuser; the seven included a benefits agency, police, councils and a hospital trust | UK Information Commissioner, Sept 2023 [31] |
+| **40% · 52%** | of UK survivors had their new address disclosed to the perpetrator, **mostly by agencies such as their child's school or local authorities**; 52% for survivors with children (1,019 survivors, 2019 fieldwork) | Citizens Advice / Opinium, Feb 2020 [35] |
+| **2021** | Services Australia disclosed a survivor's new address to her former partner; the OAIC ordered an apology, A$19,980 compensation and an audit of how contact details are updated for separating couples | OAIC, via The Conversation [36] |
 | **2023** | an English council saved a survivor's new address in a notes field, then posted a letter containing it to her old home, where her ex-partner opened it | ICO reprimand, Charnwood BC [32] |
 | **2,215** | allegations of misused confidential information in four years across seven Queensland agencies | CCC Queensland, 2019 [7] |
 | **4.8×** | growth of those allegations outside the police (health, education, corrections, transport): 65 → 312 a year | CCC Queensland, 2019 [7] |
@@ -209,7 +211,27 @@ flowchart TB
 
 Each claim in this brief should name: the participating service and workflow, the disclosure path it interrupts, the control that enforces it, and the exposure that remains.
 
-### 6.3 The story the prototype plays (`/demo?story=1`)
+### 6.3 How much of the problem this reaches (estimate)
+
+There is no study that splits every way an abuser locates a survivor. The closest measure is the Citizens Advice survey [35]: **40%** of survivors had their new address disclosed to the perpetrator, mostly by agencies. We use it as the size of the path Unfound targets, then apply two assumptions that the pilot must test.
+
+| Step | Value | Basis |
+|---|---|---|
+| A. Survivors exposed through an agency | 40% (52% with children) | Survey, self-reported, Great Britain, 2019 [35] |
+| B. Share of agency leaks Unfound's controls can stop inside a joined service | 70–90% | Our assessment: lookups, self-grants, phone pretexting (staff cannot read what they cannot see), letters and forms generated through Unfound are stopped; contact-update errors partly; an authorised viewer's notes are not |
+| C. Share of a survivor's services that have joined | 25% pilot · 70% regional · 100% ceiling | Assumption: a pilot connects about 3 of the 10–12 services one family uses |
+
+| Scenario | A × B × C | Reading |
+|---|---|---|
+| Supervised pilot | 40% × 80% × 25% ≈ **8%** (range 6–11%) | About 1 in 12 survivors spared an agency disclosure |
+| Regional rollout | 40% × 80% × 70% ≈ **22%** (range 17–29%) | About 1 in 5 |
+| Every service joins (ceiling) | 40% × 70–90% ≈ **28–36%** | About 1 in 3 |
+
+In terms of routes, Unfound closes one of five (agencies; friends and family; device and GPS tracking; physical following; public records and social media). It is the one the survey shows most often, and the only one a survivor cannot close herself: she can change her phone or her friendships, but not how a school files a letter.
+
+What these numbers are not: they measure disclosure, not harm prevented. Routes overlap, so the scenarios are upper bounds for that path, and the source is British. Steps B and C become pilot metrics: blocked lookups, letters generated without a stored address, and plain-text copies removed.
+
+### 6.4 The story the prototype plays (`/demo?story=1`)
 
 | Scene | Person · device | What happens |
 |---|---|---|
@@ -321,7 +343,7 @@ flowchart LR
 | Data tags and roles | 3 tags, 6 `_tide_addr*` roles, quorum 2 of 3 |
 | Bundle (gzip) | 260 KB landing, 67 KB demo chunk, 3 KB DPoP helper |
 | Film | 1:55, 1080p, 27 MB, voice by Kokoro, rendered frame by frame from the real prototype |
-| Research base | 34 cited sources in this brief |
+| Research base | 36 cited sources in this brief |
 | Tide checks (`tide_doctor`) | DPoP client **PASS**, DPoP relay page **PASS**, secrets hygiene **PASS**; adapter waiting on an enrolled realm |
 | Console errors in end-to-end runs | 0 |
 
@@ -501,5 +523,7 @@ Access date shown for each source.
 32. UK Information Commissioner's Office. *Reprimand: Charnwood Borough Council*. 29 Nov 2023. https://ico.org.uk/action-weve-taken/enforcement/charnwood-borough-council (accessed 27 Oct 2026)
 33. Australian Institute of Criminology. *Homicide in Australia 2023–24*, Statistical Report 52. Mar 2025. https://www.aic.gov.au/sites/default/files/2025-03/sr52_homicide_in_australia_2023-24.pdf (accessed 27 Oct 2026)
 34. Australian Institute of Criminology. *Homicide in Australia 2024–25*, Statistical Report 58. Feb 2026. https://www.aic.gov.au/sites/default/files/2026-02/sr58_homicide_in_australia_2024-25.pdf (accessed 27 Oct 2026)
+35. Citizens Advice. "Domestic abuse survivors have lost over £7 billion as perpetrators intercept their post" (Opinium survey of 1,019 survivors, fieldwork 25 Sep – 3 Oct 2019). 28 Feb 2020. https://www.citizensadvice.org.uk/about-us/media-centre/press-releases/domestic-abuse-survivors-have-lost-over-7-billion-as-perpetrators-intercept-their-post-citizens-advice-warns/ (accessed 27 Oct 2026)
+36. C. Fitzpatrick. "For domestic violence victim-survivors, a data or privacy breach can be extraordinarily dangerous". The Conversation, 3 Dec 2023. https://theconversation.com/for-domestic-violence-victim-survivors-a-data-or-privacy-breach-can-be-extraordinarily-dangerous-216630 (accessed 27 Oct 2026)
 
 All people, addresses and records in the prototype are synthetic. Figures from secondary reporting are marked as such; check the primary documents before quoting them publicly.
