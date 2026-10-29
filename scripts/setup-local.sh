@@ -22,9 +22,10 @@ if [ -z "${TIDE_LICENSE_EMAIL:-}" ] || [ "${TIDE_TERMS_ACCEPTED:-}" != "yes" ]; 
 fi
 [ -n "${KC_BOOTSTRAP_ADMIN_PASSWORD:-}" ] || die "Set KC_BOOTSTRAP_ADMIN_PASSWORD in .env (local TideCloak master admin)." 2
 REALM="${TIDE_REALM:-unfound}"
+case "$(uname -s)" in MINGW*|MSYS*|CYGWIN*) WIN=1 ;; *) WIN= ;; esac
 
 command -v node >/dev/null || die "Node.js 20+ is required."
-command -v docker >/dev/null || die "Docker is required (Docker Desktop on macOS)."
+command -v docker >/dev/null || die "Docker is required (Docker Desktop on macOS or Windows)."
 
 say "Installing dependencies"
 npm install --no-audit --no-fund
@@ -37,14 +38,24 @@ else
 fi
 
 say "Starting TideCloak on http://localhost:8080"
-docker info >/dev/null 2>&1 || { [ "$(uname)" = Darwin ] && open -a Docker; for i in $(seq 1 40); do docker info >/dev/null 2>&1 && break; sleep 3; done; }
+if ! docker info >/dev/null 2>&1; then
+  if [ "$(uname)" = Darwin ]; then
+    open -a Docker
+  elif [ -n "$WIN" ] && [ -f "/c/Program Files/Docker/Docker/Docker Desktop.exe" ]; then
+    "/c/Program Files/Docker/Docker/Docker Desktop.exe" >/dev/null 2>&1 &
+  fi
+  for i in $(seq 1 40); do docker info >/dev/null 2>&1 && break; sleep 3; done
+fi
 docker info >/dev/null 2>&1 || die "Docker is not running."
 mkdir -p .tide/data
+# Docker Desktop on Windows needs a C:/... path for the bind mount, and Git Bash must not rewrite it.
+DATA_DIR="$PWD/.tide/data"
+[ -n "$WIN" ] && DATA_DIR="$(pwd -W)/.tide/data"
 if docker ps -a --format '{{.Names}}' | grep -qx unfound-tidecloak; then
   docker start unfound-tidecloak >/dev/null
 else
-  docker run --name unfound-tidecloak -d --restart unless-stopped -p 8080:8080 \
-    -v "$PWD/.tide/data:/opt/keycloak/data/h2" \
+  MSYS_NO_PATHCONV=1 docker run --name unfound-tidecloak -d --restart unless-stopped -p 8080:8080 \
+    -v "$DATA_DIR:/opt/keycloak/data/h2" \
     -e KC_BOOTSTRAP_ADMIN_USERNAME=admin -e KC_BOOTSTRAP_ADMIN_PASSWORD="$KC_BOOTSTRAP_ADMIN_PASSWORD" \
     tideorg/tidecloak-dev:latest >/dev/null
 fi
@@ -54,6 +65,7 @@ if [ ! -f .tide/realm-kit/init/tcinit.sh ]; then
   say "Fetching Tide's realm kit (answer TypeScript, and 'n' to 'Initialize TideCloak now?': this script does it next)"
   (cd .tide && npm init @tidecloak/nextjs@latest realm-kit)
 fi
+[ -f .tide/realm-kit/init/tcinit.sh ] || die "Tide's realm kit has no init/tcinit.sh. Look in .tide/realm-kit for the init script and tell us its path."
 
 say "Provisioning realm '$REALM' (licence: $TIDE_LICENSE_EMAIL)"
 echo "When it prints ACTION REQUIRED, open the link, create or sign in to your Tide account, and leave this running."
