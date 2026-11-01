@@ -9,6 +9,8 @@ The demo switches to **Live · TideCloak** when `public/tidecloak.json` exists. 
 
 ## 1. Server and realm
 
+On Windows, run `bash scripts/setup-local.sh` from Git Bash with Docker Desktop installed.
+
 ```bash
 docker run --name mytidecloak -d -p 8080:8080 \
   -e KC_BOOTSTRAP_ADMIN_USERNAME=admin -e KC_BOOTSTRAP_ADMIN_PASSWORD=password \
@@ -27,10 +29,10 @@ The initializer registers `http://localhost:3000` as the client URL, which is th
 After the initializer and your Tide enrolment have finished, one command does steps 1 (copy) and 2–3 (roles):
 
 ```bash
-node tools/tide-setup.mjs ~/tide-setup/unfound-realm nextjs-test
+node tools/tide-setup.mjs ~/tide-setup/unfound-realm unfound
 ```
 
-It copies `tidecloak.json` into `public/`, creates the six `_tide_addr*` roles and assigns them to every user in the realm. With Quorum-Enforced Governance on, approve the resulting change set in the admin console.
+It copies `tidecloak.json` into `public/`, creates the six `_tide_addr*` roles, creates any missing persona users (`linh`, `school`, `gpclinic`, `dan`, `mai`, `ruth`, `officer`) and gives each one only its `_tide_addr*` roles from §3. It does not grant `tide-realm-admin`: give that to dan, mai and ruth in the admin console. With Quorum-Enforced Governance on, approve each resulting change set in the admin console, then rerun the script.
 
 ## 2. Roles (realm roles)
 
@@ -48,7 +50,7 @@ Usernames must match the persona ids so the app knows who is signed in.
 |----------|-------|
 | `linh` | all six `_tide_addr*` roles |
 | `school` | `_tide_addrzone.selfdecrypt` |
-| `gp` | `_tide_addrcontact.selfdecrypt` |
+| `gpclinic` (the GP persona; usernames need 3+ characters) | `_tide_addrcontact.selfdecrypt` |
 | `dan` | `tide-realm-admin` |
 | `mai` | `tide-realm-admin`, the three `.selfencrypt` roles |
 | `ruth` | `tide-realm-admin` |

@@ -15,11 +15,12 @@ import {
 } from "./engine";
 import { DeniedError, resetMockKeys, type Fabric } from "./fabric";
 
-const STATE_KEY = storageKey("unfound-demo-state-v1");
+// Live ciphertexts come from Tide and mock ones from this browser, so they must never mix.
+const stateKey = (mode: Fabric["mode"]) => storageKey(mode === "live" ? "unfound-demo-state-v1-live" : "unfound-demo-state-v1");
 
-function load(): DemoState {
+function load(mode: Fabric["mode"]): DemoState {
   try {
-    const raw = localStorage.getItem(STATE_KEY);
+    const raw = localStorage.getItem(stateKey(mode));
     if (raw) return JSON.parse(raw) as DemoState;
   } catch {
     /* fall through to a fresh state */
@@ -77,7 +78,7 @@ export function UnfoundProvider({
   setCurrent: (id: ActorId) => void;
   children: ReactNode;
 }) {
-  const [state, setState] = useState<DemoState>(load);
+  const [state, setState] = useState<DemoState>(() => load(fabric.mode));
   const ref = useRef(state);
   ref.current = state;
   const currentRef = useRef(current);
@@ -85,11 +86,11 @@ export function UnfoundProvider({
 
   useEffect(() => {
     try {
-      localStorage.setItem(STATE_KEY, JSON.stringify(state));
+      localStorage.setItem(stateKey(fabric.mode), JSON.stringify(state));
     } catch {
       /* storage blocked: the demo still works for this tab */
     }
-  }, [state]);
+  }, [state, fabric.mode]);
 
   const update = useCallback((fn: (s: DemoState) => DemoState) => {
     ref.current = fn(ref.current);
