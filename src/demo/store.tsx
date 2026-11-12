@@ -258,7 +258,7 @@ export function UnfoundProvider({
               [next.target]: next.action === "GRANT" ? Array.from(new Set([...roles, next.role])) : roles.filter((r) => r !== next.role),
             },
           };
-          out = pushLog(out, { actor: me, op: "commit", detail: `${crId}: quorum met, signed by threshold (TSS), change applied`, result: "ok", subject: cr.subject });
+          out = pushLog(out, { actor: me, op: "commit", detail: `${crId}: quorum met (${next.approvals.length}/${THRESHOLD}), change applied by the demo · in TideCloak the ORKs sign it by threshold`, result: "ok", subject: cr.subject });
         }
         if (next.status === "DENIED") {
           out = pushLog(out, { actor: me, op: "commit", detail: `${crId}: quorum can no longer be reached, request closed`, result: "denied", subject: cr.subject });

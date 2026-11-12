@@ -17,6 +17,7 @@ import { Police } from "./screens/Police";
 import { Service } from "./screens/Service";
 import { Survivor } from "./screens/Survivor";
 import { Gate, IrisOut, type Iris } from "./Gate";
+import { TideStack } from "./TideStack";
 
 const PERSONA_KEY = storageKey("unfound-demo-persona");
 
@@ -236,6 +237,9 @@ function Shell({ live }: { live?: LiveInfo }) {
   const stage = useRef<HTMLDivElement>(null);
   const layer = useRef<HTMLDivElement>(null);
   const { scene, callout, status, start, stop, setStatus } = useStory(stage, layer);
+  // The sidebar shows either the raw Fabric log or which part of the Tide stack each step runs on.
+  // ?panel=stack opens on the stack, for walking someone through the technology.
+  const [panel, setPanel] = useState<"log" | "stack">(() => (new URLSearchParams(window.location.search).get("panel") === "stack" ? "stack" : "log"));
   useDemoSounds(state.log);
   // /demo?story=1 (the landing's "Play the story") starts the guided run once the curtain has lifted.
   useEffect(() => {
@@ -413,7 +417,15 @@ function Shell({ live }: { live?: LiveInfo }) {
                 <motion.div className="progress-fill" animate={{ scaleX: playing ? (scene + 1) / STORY.length : status === "done" ? 1 : 0 }} transition={{ duration: 0.6, ease: ease.out }} />
               </div>
             </div>
-            <FabricLog log={state.log} mode={fabric.mode} />
+            <div className="tabs side-tabs" role="tablist" aria-label="Sidebar">
+              {(["log", "stack"] as const).map((p) => (
+                <button key={p} className="tab" role="tab" aria-selected={panel === p} data-sfx="switch" onClick={() => setPanel(p)}>
+                  {p === "log" ? "Fabric log" : "Tide stack"}
+                  {panel === p && <motion.span className="tab-line" layoutId="side-tab-line" transition={{ type: "spring", stiffness: 500, damping: 40 }} />}
+                </button>
+              ))}
+            </div>
+            {panel === "log" ? <FabricLog log={state.log} mode={fabric.mode} /> : <TideStack log={state.log} mode={fabric.mode} live={live} />}
           </aside>
         )}
       </div>

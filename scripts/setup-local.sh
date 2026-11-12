@@ -13,7 +13,9 @@ cd "$(dirname "$0")/.."
 say() { printf "\n\033[1m▸ %s\033[0m\n" "$*"; }
 die() { printf "\n\033[31m✖ %s\033[0m\n" "$*" >&2; exit "${2:-1}"; }
 
-[ -f .env ] && set -a && . ./.env && set +a
+# Strip CRs: a .env saved with Windows line endings would otherwise end every value in \r,
+# so TIDE_TERMS_ACCEPTED would never equal "yes" and the admin password would never match.
+[ -f .env ] && set -a && . <(tr -d '\r' < .env) && set +a
 
 # Tide's rule: only you can give the licence email and accept the Terms. No defaults.
 if [ -z "${TIDE_LICENSE_EMAIL:-}" ] || [ "${TIDE_TERMS_ACCEPTED:-}" != "yes" ]; then

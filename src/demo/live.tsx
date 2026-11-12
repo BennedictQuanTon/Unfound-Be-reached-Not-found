@@ -2,7 +2,7 @@
 // Encrypt/decrypt run through Tide's network; role grants go through real QEA change sets.
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
-import { TideCloakContextProvider, useTideCloak } from "@tidecloak/react";
+import { TideCloakContextProvider, useTideCloak, type TideCloakContextValue } from "@tidecloak/react";
 import { ACTORS, LINH_ID, role, type ActorId } from "./engine";
 import { DeniedError, type Fabric } from "./fabric";
 import { useUnfound } from "./store";
@@ -57,6 +57,40 @@ export interface LiveInfo {
   logout: () => void;
   initializing: boolean;
   error: string | null;
+  session: LiveSession | null;
+}
+
+// What the Tide stack panel shows as proof the session is real: the adapter config and claims from
+// the access token (realm roles, and the DPoP key thumbprint in cnf.jkt when the token is bound).
+export interface LiveSession {
+  realm?: string;
+  server?: string;
+  homeOrk?: string;
+  vendorId?: string;
+  roles: string[];
+  dpopJkt: string | null;
+  tokenExp: number | null;
+}
+
+function readSession(tc: TideCloakContextValue): LiveSession | null {
+  if (tc.isInitializing) return null;
+  let cfg: Record<string, unknown> = {};
+  try {
+    cfg = tc.getConfig() ?? {};
+  } catch {
+    /* adapter not loaded yet: show what the token has */
+  }
+  const access = tc.authenticated ? (tc.getValueFromToken("realm_access") as { roles?: string[] } | undefined) : undefined;
+  const cnf = tc.authenticated ? (tc.getValueFromToken("cnf") as { jkt?: string } | undefined) : undefined;
+  return {
+    realm: cfg.realm as string | undefined,
+    server: cfg["auth-server-url"] as string | undefined,
+    homeOrk: cfg.homeOrkUrl as string | undefined,
+    vendorId: cfg.vendorId as string | undefined,
+    roles: (access?.roles ?? []).filter((r) => r.startsWith("_tide_") || r === "tide-realm-admin"),
+    dpopJkt: cnf?.jkt ?? null,
+    tokenExp: tc.tokenExp,
+  };
 }
 
 function LiveBridge({ children }: { children: Parameters<typeof LiveRoot>[0]["children"] }) {
@@ -97,6 +131,7 @@ function LiveBridge({ children }: { children: Parameters<typeof LiveRoot>[0]["ch
     logout: () => void tc.logout(),
     initializing: tc.isInitializing,
     error: tc.initError ? tc.initError.message : null,
+    session: readSession(tc),
   };
 
   return <>{children({ fabric, current, setCurrent: setPicked, live })}</>;

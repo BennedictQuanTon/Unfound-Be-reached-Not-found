@@ -134,8 +134,8 @@ export function Gate({ liveReady, onLive, onMock, onStory }: {
               </div>
               <h2 id="sorry-title">Sorry, <em>not on this one.</em></h2>
               <p>
-                We couldn't create a Tide account during the hackathon: Tide's network failed every enrolment
-                (13–17 of 20 ORKs not responding), so live sign-in can't run on this site.
+                Live sign-in needs a TideCloak realm, and this public site isn't connected to one yet. Today it
+                runs on our own local realm while we move to hosted TideCloak.
               </p>
               <p>
                 To test with Tide, run the project from GitHub on your own machine. One command sets up TideCloak, the realm and the app.

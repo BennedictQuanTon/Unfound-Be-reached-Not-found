@@ -8,7 +8,7 @@ type Node = { id: string; x: number; y: number; w: number; title: string; sub: s
 
 const NODES: Node[] = [
   { id: "phone", x: 30, y: 40, w: 230, title: "Survivor's phone", sub: "doEncrypt · 3 tags" },
-  { id: "server", x: 30, y: 300, w: 230, title: "Unfound server", sub: "Ciphertext only · no key" },
+  { id: "server", x: 30, y: 300, w: 230, title: "Unfound server", sub: "Ciphertext only · pilot build" },
   { id: "tc", x: 385, y: 40, w: 230, title: "TideCloak", sub: "BYOiD sign-in · roles · tokens", dark: true },
   { id: "fabric", x: 385, y: 300, w: 230, title: "Tide Fabric", sub: "Independent ORK nodes · threshold", dark: true },
   { id: "svc", x: 740, y: 40, w: 230, title: "School · GP · Police", sub: "One role per tag" },
